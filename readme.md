@@ -2,8 +2,8 @@
 <html>
 <body>
 
-<h1> Welcome! </h1>
-<hr>
+<h1> Hi Prof. Holash! </h1>
+
 <h2> Who Am I? </h2>
 <p> Hi! My name is Kiersten Cerisse, but i usually go by KC. <br>
 I've realized that I have a passion for anything computer related, and it started with Excel. <br>

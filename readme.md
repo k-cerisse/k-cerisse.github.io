@@ -10,3 +10,7 @@ I've realized that I have a passion for anything computer related, and it starte
 Soemthing about the formulas and codes you can use to make your life easier is very appleaing to me.
 </p>
 <hr>
+
+
+</body>
+</html>

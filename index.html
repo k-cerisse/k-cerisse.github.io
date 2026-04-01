@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiersten Cerisse - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <main class="desktop-container">
+        
+        <header class="desktop-header">
+            <h1 class="pixel-text">k-cerisse.portfolio</h1>
+        </header>
+
+        <!-- Rubric Section 1/2: About Me (LEFT ALIGNED) -->
+        <section id="about" class="rubric-section hidden-section">
+            <div class="win95-window">
+                <div class="win95-titlebar">
+                    <div class="win95-titletext">C:\My_Documents\About_Me.txt</div>
+                    <div class="win95-controls">
+                        <button class="win95-btn">_</button><button class="win95-btn">□</button><button class="win95-btn">X</button>
+                    </div>
+                </div>
+                <div class="win95-body">
+                    <div class="intro-block">
+                        <h1>Hello! My name is Kiersten Cerisse Galapati.</h1>
+                        <p>My nickname is KC. I am a student interested in health and medicine.</p>
+                        <p><i>>> Explore the folders below:</i></p>
+                    </div>
+                    
+                    <div class="interactive-folder-grid">
+                        <div class="interactive-item" onclick="toggleReveal('reveal-edu')">
+                            <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="win-icon pixelated-img" alt="Folder">
+                            <span class="icon-label">Education</span>
+                        </div>
+                        <div class="interactive-item" onclick="toggleReveal('reveal-proj')">
+                            <img src="https://win98icons.alexmeub.com/icons/png/briefcase-2.png" class="win-icon pixelated-img" alt="Briefcase">
+                            <span class="icon-label">Projects</span>
+                        </div>
+                        <div class="interactive-item" onclick="toggleReveal('reveal-int')">
+                            <img src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd-3.png" class="win-icon pixelated-img" alt="CD">
+                            <span class="icon-label">Interests</span>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Contents -->
+                    <div id="reveal-edu" class="reveal-content hidden">
+                        <fieldset class="win-fieldset">
+                            <legend>Education.exe</legend>
+                            <p>Program: Exercise and Health Physiology</p>
+                            <p>Institution: University of Calgary (2022 – 2026)</p>
+                            <p>Courses: KNES 381, KNES 259/260</p>
+                        </fieldset>
+                    </div>
+                    <div id="reveal-proj" class="reveal-content hidden">
+                        <fieldset class="win-fieldset">
+                            <legend>Projects.exe</legend>
+                            <p>Managing Social Media For Womens Heart Health Event (Jan 2026).</p>
+                            <p>Youth Camp Lead (Apr 2023).</p>
+                        </fieldset>
+                    </div>
+                    <div id="reveal-int" class="reveal-content hidden">
+                        <fieldset class="win-fieldset">
+                            <legend>Interests.exe</legend>
+                            <p>Music, videography, japanese cars, data analysis, crocheting.</p>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- OVERLAPPING FLOATING HUD ASSET: MS Paint Tools -->
+            <!-- Transparent authentic pixel image pulled to avoid isolating bad jpegs -->
+            <img src="https://win98icons.alexmeub.com/icons/png/paint_file-1.png" class="floating-asset asset-paint pixelated-img" style="top:-30px; right:-60px; width:70px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" class="scroll-icon left-icon pixelated-img" alt="Computer">
+        </section>
+
+        <!-- Rubric Section 3: Computation Tool (RIGHT ALIGNED) -->
+        <section id="computation" class="rubric-section hidden-section">
+            <div class="win95-window">
+                <div class="win95-titlebar">
+                    <div class="win95-titletext">C:\Programs\Kinesiology.exe</div>
+                    <div class="win95-controls"><button class="win95-btn">X</button></div>
+                </div>
+                <div class="win95-body">
+                    <h2>Kinesiology Computational Tool (30%)</h2>
+                    
+                    <div class="interactive-item center-item" onclick="toggleReveal('reveal-calc')">
+                        <img src="https://win98icons.alexmeub.com/icons/png/gears-0.png" class="win-icon pixelated-img" alt="Gears">
+                        <span class="icon-label">Launch</span>
+                    </div>
+
+                    <div id="reveal-calc" class="reveal-content hidden">
+                        <div class="code-box">
+                            <p>C:\> python analysis.py</p>
+                            <p>>> Analyzing...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OVERLAPPING FLOATING HUD ASSET: Fake Error Window -->
+            <!-- This is perfectly clean HTML avoiding dirty jpgs -->
+            <div class="floating-asset asset-error win95-window" style="padding:0; box-shadow: 4px 4px 0 black;">
+                <div class="win95-titlebar" style="background:#800000;">
+                    <div class="win95-titletext">Error</div>
+                    <button class="win95-btn">X</button>
+                </div>
+                <div class="win95-body" style="padding:10px; font-size:1rem; display:flex; gap:10px; align-items:center;">
+                    <img src="https://win98icons.alexmeub.com/icons/png/msg_error-0.png" style="width:32px;">
+                    <div>Task successfully failed!</div>
+                </div>
+            </div>
+
+            <img src="https://win98icons.alexmeub.com/icons/png/msdos-1.png" class="scroll-icon right-icon pixelated-img" alt="DOS">
+        </section>
+
+        <!-- Rubric Section 4: Data Visualization (CENTER ALIGNED) -->
+        <section id="dataviz" class="rubric-section hidden-section">
+            <div class="win95-window">
+                <div class="win95-titlebar">
+                    <div class="win95-titletext">Charts.jpeg</div>
+                    <div class="win95-controls"><button class="win95-btn">X</button></div>
+                </div>
+                <div class="win95-body">
+                    <h2>Data Visualization (20%)</h2>
+                    
+                    <div class="interactive-item center-item" onclick="toggleReveal('reveal-charts')">
+                        <img src="https://win98icons.alexmeub.com/icons/png/graph-0.png" class="win-icon pixelated-img" alt="Chart">
+                        <span class="icon-label">View</span>
+                    </div>
+
+                    <div id="reveal-charts" class="reveal-content hidden">
+                        <div class="fake-chart">[ Chart Placeholder ]</div>
+                    </div>
+                </div>
+            </div>
+
+            <img src="https://win98icons.alexmeub.com/icons/png/game_solitaire-0.png" class="floating-asset asset-colorpicker pixelated-img" style="top:20%; left:-70px; width:60px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/address_book-0.png" class="scroll-icon left-icon pixelated-img">
+        </section>
+
+        <!-- Rubric Section 5: Logic Component (LEFT ALIGNED) -->
+        <section id="logic" class="rubric-section hidden-section">
+            <div class="win95-window">
+                <div class="win95-titlebar">
+                    <div class="win95-titletext">Maze.sb3</div>
+                    <div class="win95-controls"><button class="win95-btn">X</button></div>
+                </div>
+                <div class="win95-body">
+                    <h2>Additional Component (10%)</h2>
+                    <p>Click below to play!</p>
+                    
+                    <div class="interactive-item center-item" onclick="toggleReveal('reveal-logic')">
+                        <img src="https://win98icons.alexmeub.com/icons/png/game_freecell-1.png" class="win-icon pixelated-img" alt="Game">
+                        <span class="icon-label">Play</span>
+                    </div>
+
+                    <div id="reveal-logic" class="reveal-content hidden">
+                        <div class="logic-box">[ Scratch iframe ]</div>
+                    </div>
+                </div>
+            </div>
+
+            <img src="https://win98icons.alexmeub.com/icons/png/game_mine_1-0.png" class="scroll-icon right-icon pixelated-img" alt="Game">
+        </section>
+        
+        <footer>
+            <p>Designed by KC • Contact: kc.galapati@gmail.com</p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

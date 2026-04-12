@@ -23,18 +23,26 @@ const observerOptions = {
 const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.remove('hidden-section');
-            entry.target.classList.add('visible-section');
-
-            const icon = entry.target.querySelector('.scroll-icon');
-            if (icon) icon.classList.add('show-icon');
+            showSection(entry.target);
         }
     });
 }, observerOptions);
 
+function showSection(section) {
+    section.classList.remove('hidden-section');
+    section.classList.add('visible-section');
+    const icon = section.querySelector('.scroll-icon');
+    if (icon) icon.classList.add('show-icon');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.rubric-section').forEach(section => {
         sectionObserver.observe(section);
+        // Immediately show sections already in the viewport (don't wait for scroll)
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            showSection(section);
+        }
     });
 
     // Wire up CSV file input

@@ -180,10 +180,7 @@ async function runAnalysis() {
         plotImg.src = 'data:image/png;base64,' + imgBase64;
         plotImg.style.display = 'block';
 
-        setPyStatus('Done! Scroll down to view your charts.');
-
-        // Smooth scroll to the dataviz section
-        document.getElementById('dataviz').scrollIntoView({ behavior: 'smooth' });
+        setPyStatus('Done! Charts generated.');
 
     } catch (err) {
         setPyStatus('Error: ' + err.message);

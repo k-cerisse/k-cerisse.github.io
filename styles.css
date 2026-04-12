@@ -63,6 +63,32 @@ a, button, .interactive-item {
     transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* Wide variant for sections that need more room */
+.rubric-section--wide {
+    width: 85%;
+    min-width: 600px;
+}
+
+/* --- SIDE-BY-SIDE ANALYSIS LAYOUT --- */
+.analysis-layout {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.analysis-left {
+    flex: 0 0 38%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.analysis-right {
+    flex: 1;
+    min-width: 0;
+}
+
 /* STAGGERING: Zigzag pattern */
 #about {
     align-self: flex-start;

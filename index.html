@@ -74,8 +74,8 @@
             <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" class="scroll-icon left-icon pixelated-img" alt="Computer">
         </section>
 
-        <!-- Rubric Section 3: Computation Tool (RIGHT ALIGNED) -->
-        <section id="computation" class="rubric-section hidden-section">
+        <!-- Rubric Sections 3 & 4: Computation + Data Visualization (RIGHT ALIGNED, wider) -->
+        <section id="computation" class="rubric-section rubric-section--wide hidden-section">
             <div class="win95-window">
                 <div class="win95-titlebar">
                     <div class="win95-titletext">C:\Programs\VO2_Analyzer.exe</div>
@@ -85,19 +85,30 @@
                     <h2>VO&#x2082; Analysis Tool</h2>
                     <p>Upload a subject CSV file to generate metabolic plots.</p>
 
-                    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('csv-input').click()">
-                        <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="win-icon pixelated-img" alt="Folder">
-                        <span id="upload-label">Click to upload .csv file</span>
-                        <input type="file" id="csv-input" accept=".csv" style="display:none">
-                    </div>
+                    <div class="analysis-layout">
+                        <!-- Left: controls -->
+                        <div class="analysis-left">
+                            <div class="upload-zone" id="upload-zone" onclick="document.getElementById('csv-input').click()">
+                                <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="win-icon pixelated-img" alt="Folder">
+                                <span id="upload-label">Click to upload .csv file</span>
+                                <input type="file" id="csv-input" accept=".csv" style="display:none">
+                            </div>
 
-                    <div class="code-box" id="py-status-box">
-                        <p id="py-status">>> Click the folder icon to upload a CSV file.</p>
-                    </div>
+                            <div class="code-box" id="py-status-box">
+                                <p id="py-status">>> Click the folder icon to upload a CSV file.</p>
+                            </div>
 
-                    <button class="win95-run-btn" id="run-btn" onclick="runAnalysis()" disabled>
-                        &#9654; Run Analysis
-                    </button>
+                            <button class="win95-run-btn" id="run-btn" onclick="runAnalysis()" disabled>
+                                &#9654; Run Analysis
+                            </button>
+                        </div>
+
+                        <!-- Right: chart output -->
+                        <div class="analysis-right">
+                            <div id="plot-placeholder" class="fake-chart">[ Chart output appears here ]</div>
+                            <img id="plot-output" style="display:none; width:100%;" alt="Generated VO2 metabolic charts">
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -114,24 +125,6 @@
             </div>
 
             <img src="https://win98icons.alexmeub.com/icons/png/msdos-1.png" class="scroll-icon right-icon pixelated-img" alt="DOS">
-        </section>
-
-        <!-- Rubric Section 4: Data Visualization (CENTER ALIGNED) -->
-        <section id="dataviz" class="rubric-section hidden-section">
-            <div class="win95-window">
-                <div class="win95-titlebar">
-                    <div class="win95-titletext">Charts.png — Output</div>
-                    <div class="win95-controls"><button class="win95-btn">X</button></div>
-                </div>
-                <div class="win95-body">
-                    <h2>Metabolic Analysis Output</h2>
-                    <div id="plot-placeholder" class="fake-chart">[ Run analysis above to generate charts ]</div>
-                    <img id="plot-output" style="display:none; width:100%;" alt="Generated VO2 metabolic charts">
-                </div>
-            </div>
-
-            <img src="https://win98icons.alexmeub.com/icons/png/game_solitaire-0.png" class="floating-asset asset-colorpicker pixelated-img" style="top:20%; left:-70px; width:60px;">
-            <img src="https://win98icons.alexmeub.com/icons/png/address_book-0.png" class="scroll-icon left-icon pixelated-img">
         </section>
 
         <!-- Rubric Section 5: Logic Component — Scratch Maze (LEFT ALIGNED) -->

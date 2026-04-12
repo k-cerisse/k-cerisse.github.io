@@ -16,17 +16,13 @@
 body, html {
     margin: 0;
     padding: 0;
-    /* Use Google Fonts VT323 for perfect 8-bit text universally! */
     font-family: 'VT323', monospace;
-    font-size: 1.3rem; 
+    font-size: 1.3rem;
     color: var(--win-text);
-    background-color: var(--win-teal); 
-    
-    /* Classic 90s Custom Cursor */
+    background-color: var(--win-teal);
     cursor: url('https://win98icons.alexmeub.com/cursors/arrow.cur'), auto;
 }
 
-/* Links and interactables get pointer */
 a, button, .interactive-item {
     cursor: url('https://win98icons.alexmeub.com/cursors/pointer.cur'), pointer;
 }
@@ -42,8 +38,7 @@ a, button, .interactive-item {
     padding: 40px 20px 100px 20px;
     display: flex;
     flex-direction: column;
-    /* Huge gaps between sections to allow floating elements to breathe */
-    gap: 120px; 
+    gap: 120px;
     overflow-x: hidden;
 }
 
@@ -62,42 +57,41 @@ a, button, .interactive-item {
 /* --- THE SCATTERED SECTIONS --- */
 .rubric-section {
     position: relative;
-    width: 65%; /* Sections only take up part of the screen width */
+    width: 65%;
     min-width: 350px;
     z-index: 5;
     transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* STAGGERING: Zigzag pattern! */
-/* Section 1 (About) -> Left */
+/* STAGGERING: Zigzag pattern */
 #about {
     align-self: flex-start;
     margin-left: 2%;
     z-index: 10;
 }
-/* Section 2 (Computation) -> Right */
 #computation {
     align-self: flex-end;
     margin-right: 2%;
     z-index: 9;
 }
-/* Section 3 (DataViz) -> Center (Tilt) */
 #dataviz {
     align-self: center;
     z-index: 8;
 }
-/* Section 4 (Logic) -> Right */
 #logic {
     align-self: flex-start;
     margin-left: 10%;
     z-index: 7;
+    /* Wider to fit the CRT monitor */
+    width: 75%;
+    min-width: 560px;
 }
 
 /* --- OVERLAPPING HUD ASSETS --- */
 .floating-asset {
     position: absolute;
-    z-index: -1; /* Puts them slightly behind the main window for overlap */
-    pointer-events: none; /* User can click through them */
+    z-index: -1;
+    pointer-events: none;
 }
 .asset-paint {
     top: -50px;
@@ -108,7 +102,7 @@ a, button, .interactive-item {
     bottom: -60px;
     left: -80px;
     width: 250px;
-    z-index: 20; /* This one overlaps ON TOP */
+    z-index: 20;
 }
 .asset-colorpicker {
     top: 50%;
@@ -120,12 +114,12 @@ a, button, .interactive-item {
 .win95-window {
     background-color: var(--win-surface);
     width: 100%;
-    box-shadow: 
-        inset -2px -2px var(--win-black), 
-        inset 2px 2px var(--win-highlight), 
-        inset -4px -4px var(--win-shadow), 
+    box-shadow:
+        inset -2px -2px var(--win-black),
+        inset 2px 2px var(--win-highlight),
+        inset -4px -4px var(--win-shadow),
         inset 4px 4px #dfdfdf,
-        8px 8px 0px rgba(0,0,0,0.6); /* Heavy drop shadow for overlapping */
+        8px 8px 0px rgba(0,0,0,0.6);
     padding: 4px;
     position: relative;
     border: 2px solid black;
@@ -151,7 +145,6 @@ a, button, .interactive-item {
     gap: 3px;
 }
 
-/* Hard 8-bit Buttons */
 .win95-btn {
     background: var(--win-surface);
     border: none;
@@ -177,7 +170,7 @@ a, button, .interactive-item {
     margin-bottom: 30px;
     line-height: 1.2;
 }
-.intro-block h1 { font-size: 1.8rem; margin-top: 0; color: var(--win-blue);}
+.intro-block h1 { font-size: 1.8rem; margin-top: 0; color: var(--win-blue); }
 
 /* --- INTERACTIVE ICONS GRID --- */
 .interactive-folder-grid {
@@ -236,9 +229,9 @@ a, button, .interactive-item {
 
 .win-fieldset {
     border: none;
-    box-shadow: 
-        inset -1px -1px var(--win-highlight), 
-        inset 1px 1px var(--win-shadow), 
+    box-shadow:
+        inset -1px -1px var(--win-highlight),
+        inset 1px 1px var(--win-shadow),
         inset 2px 2px var(--win-black),
         inset -2px -2px var(--win-surface);
     padding: 15px;
@@ -255,43 +248,250 @@ a, button, .interactive-item {
     border: 1px solid var(--win-black);
 }
 
-/* --- RUBRIC PLACEHOLDERS --- */
-.code-box, .fake-chart, .logic-box {
-    width: 100%;
-    height: 200px;
+/* --- UPLOAD ZONE --- */
+.upload-zone {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    font-size: 1.3rem; 
+    justify-content: center;
+    gap: 6px;
+    padding: 18px;
+    background: white;
+    border: 2px dashed var(--win-shadow);
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.1s, border-color 0.1s;
 }
 
+.upload-zone:hover {
+    background: #d0e0f8;
+    border-color: var(--win-blue);
+}
+
+.upload-zone span {
+    font-size: 1.1rem;
+    color: var(--win-blue);
+}
+
+/* --- RUN BUTTON --- */
+.win95-run-btn {
+    background: var(--win-surface);
+    border: none;
+    box-shadow:
+        inset -2px -2px var(--win-black),
+        inset 2px 2px var(--win-highlight),
+        inset -4px -4px var(--win-shadow),
+        inset 4px 4px #dfdfdf;
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    padding: 6px 24px;
+    color: black;
+    cursor: pointer;
+    display: block;
+    margin-top: 10px;
+}
+
+.win95-run-btn:disabled {
+    color: var(--win-shadow);
+    cursor: default;
+}
+
+.win95-run-btn:not(:disabled):hover {
+    background: #d4d0d4;
+}
+
+.win95-run-btn:not(:disabled):active {
+    box-shadow:
+        inset -2px -2px var(--win-highlight),
+        inset 2px 2px var(--win-black);
+    padding: 7px 23px 5px 25px;
+}
+
+/* --- STATUS / CODE BOX --- */
 .code-box {
     background: #000;
     color: lime;
     flex-direction: column;
     align-items: flex-start;
-    padding: 20px;
+    padding: 14px 20px;
     border: 4px solid var(--win-shadow);
+    min-height: 80px;
+    font-size: 1.1rem;
+    line-height: 1.4;
 }
 
+.code-box p { margin: 4px 0; }
+
+/* --- PLOT OUTPUT --- */
 .fake-chart {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
     background: #ffffff;
     color: var(--win-blue);
     box-shadow: inset 2px 2px var(--win-shadow), inset -2px -2px var(--win-highlight);
 }
 
+#plot-output {
+    width: 100%;
+    border: 2px inset var(--win-shadow);
+    display: block;
+}
+
+/* --- RUBRIC PLACEHOLDER --- */
 .logic-box {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
     background: #ffffff;
     border: 4px solid #ffb300;
     color: #ff8f00;
 }
 
+/* --- CRT MONITOR --- */
+.crt-monitor-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px auto 0;
+}
+
+.crt-monitor {
+    background: #c8c0b0;
+    padding: 14px 18px 10px 18px;
+    border-radius: 6px 6px 3px 3px;
+    box-shadow:
+        inset -4px -4px #9a9080,
+        inset 4px 4px #e8e0d0,
+        8px 8px 0 rgba(0,0,0,0.45);
+    width: fit-content;
+}
+
+.crt-top-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+}
+
+.crt-brand {
+    font-family: 'VT323', monospace;
+    font-size: 0.85rem;
+    color: #6a5c48;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.crt-screen-bezel {
+    background: #1c1c1c;
+    padding: 12px;
+    border-radius: 4px 4px 2px 2px;
+    box-shadow:
+        inset 4px 4px 10px rgba(0,0,0,0.95),
+        inset -2px -2px 6px rgba(0,0,0,0.6);
+}
+
+.crt-screen {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    line-height: 0;
+}
+
+/* Scanlines overlay */
+.crt-screen::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.05) 3px,
+        rgba(0,0,0,0.05) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Vignette glow */
+.crt-screen::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.35) 100%);
+    pointer-events: none;
+    z-index: 11;
+}
+
+.crt-screen iframe {
+    display: block;
+    border: none;
+}
+
+.crt-bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px 2px 4px;
+}
+
+.crt-power-led {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #00cc00;
+    box-shadow: 0 0 5px #00ff44;
+    border: 1px solid #004400;
+}
+
+.crt-model-label {
+    font-family: 'VT323', monospace;
+    font-size: 0.8rem;
+    color: #7a6c58;
+    letter-spacing: 2px;
+}
+
+.crt-adj-btns {
+    display: flex;
+    gap: 5px;
+}
+
+.crt-adj-btn {
+    width: 11px;
+    height: 11px;
+    background: #a89880;
+    border-radius: 2px;
+    box-shadow: inset -1px -1px #786858, inset 1px 1px #d8c8b8;
+}
+
+.crt-neck {
+    width: 56px;
+    height: 16px;
+    background: #b4ac9c;
+    clip-path: polygon(18% 0%, 82% 0%, 100% 100%, 0% 100%);
+    box-shadow: inset -2px 0 #8a8070;
+}
+
+.crt-stand {
+    width: 130px;
+    height: 12px;
+    background: #bcb4a4;
+    border-radius: 2px;
+    box-shadow:
+        inset -2px -2px #908880,
+        inset 2px 2px #dcd4c4;
+}
+
 /* --- SCROLL ANIMATIONS / ICONS --- */
-/* The animated entry states */
 .hidden-section { opacity: 0; transform: translateY(80px) rotate(3deg); }
 .visible-section { opacity: 1; transform: translateY(0) rotate(0deg); }
 
-/* The little floating decor icons triggered by JS */
 .scroll-icon {
     position: absolute;
     top: 50%;

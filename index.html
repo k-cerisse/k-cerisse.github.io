@@ -9,7 +9,7 @@
 <body>
 
     <main class="desktop-container">
-        
+
         <header class="desktop-header">
             <h1 class="pixel-text">k-cerisse.portfolio</h1>
         </header>
@@ -29,7 +29,7 @@
                         <p>My nickname is KC. I am a student interested in health and medicine.</p>
                         <p><i>>> Explore the folders below:</i></p>
                     </div>
-                    
+
                     <div class="interactive-folder-grid">
                         <div class="interactive-item" onclick="toggleReveal('reveal-edu')">
                             <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="win-icon pixelated-img" alt="Folder">
@@ -69,9 +69,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- OVERLAPPING FLOATING HUD ASSET: MS Paint Tools -->
-            <!-- Transparent authentic pixel image pulled to avoid isolating bad jpegs -->
+
             <img src="https://win98icons.alexmeub.com/icons/png/paint_file-1.png" class="floating-asset asset-paint pixelated-img" style="top:-30px; right:-60px; width:70px;">
             <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" class="scroll-icon left-icon pixelated-img" alt="Computer">
         </section>
@@ -80,28 +78,30 @@
         <section id="computation" class="rubric-section hidden-section">
             <div class="win95-window">
                 <div class="win95-titlebar">
-                    <div class="win95-titletext">C:\Programs\Kinesiology.exe</div>
+                    <div class="win95-titletext">C:\Programs\VO2_Analyzer.exe</div>
                     <div class="win95-controls"><button class="win95-btn">X</button></div>
                 </div>
                 <div class="win95-body">
-                    <h2>Kinesiology Computational Tool (30%)</h2>
-                    
-                    <div class="interactive-item center-item" onclick="toggleReveal('reveal-calc')">
-                        <img src="https://win98icons.alexmeub.com/icons/png/gears-0.png" class="win-icon pixelated-img" alt="Gears">
-                        <span class="icon-label">Launch</span>
+                    <h2>VO&#x2082; Analysis Tool</h2>
+                    <p>Upload a subject CSV file to generate metabolic plots.</p>
+
+                    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('csv-input').click()">
+                        <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="win-icon pixelated-img" alt="Folder">
+                        <span id="upload-label">Click to upload .csv file</span>
+                        <input type="file" id="csv-input" accept=".csv" style="display:none">
                     </div>
 
-                    <div id="reveal-calc" class="reveal-content hidden">
-                        <div class="code-box">
-                            <p>C:\> python analysis.py</p>
-                            <p>>> Analyzing...</p>
-                        </div>
+                    <div class="code-box" id="py-status-box">
+                        <p id="py-status">>> Click the folder icon to upload a CSV file.</p>
                     </div>
+
+                    <button class="win95-run-btn" id="run-btn" onclick="runAnalysis()" disabled>
+                        &#9654; Run Analysis
+                    </button>
                 </div>
             </div>
 
             <!-- OVERLAPPING FLOATING HUD ASSET: Fake Error Window -->
-            <!-- This is perfectly clean HTML avoiding dirty jpgs -->
             <div class="floating-asset asset-error win95-window" style="padding:0; box-shadow: 4px 4px 0 black;">
                 <div class="win95-titlebar" style="background:#800000;">
                     <div class="win95-titletext">Error</div>
@@ -120,20 +120,13 @@
         <section id="dataviz" class="rubric-section hidden-section">
             <div class="win95-window">
                 <div class="win95-titlebar">
-                    <div class="win95-titletext">Charts.jpeg</div>
+                    <div class="win95-titletext">Charts.png — Output</div>
                     <div class="win95-controls"><button class="win95-btn">X</button></div>
                 </div>
                 <div class="win95-body">
-                    <h2>Data Visualization (20%)</h2>
-                    
-                    <div class="interactive-item center-item" onclick="toggleReveal('reveal-charts')">
-                        <img src="https://win98icons.alexmeub.com/icons/png/graph-0.png" class="win-icon pixelated-img" alt="Chart">
-                        <span class="icon-label">View</span>
-                    </div>
-
-                    <div id="reveal-charts" class="reveal-content hidden">
-                        <div class="fake-chart">[ Chart Placeholder ]</div>
-                    </div>
+                    <h2>Metabolic Analysis Output</h2>
+                    <div id="plot-placeholder" class="fake-chart">[ Run analysis above to generate charts ]</div>
+                    <img id="plot-output" style="display:none; width:100%;" alt="Generated VO2 metabolic charts">
                 </div>
             </div>
 
@@ -141,31 +134,53 @@
             <img src="https://win98icons.alexmeub.com/icons/png/address_book-0.png" class="scroll-icon left-icon pixelated-img">
         </section>
 
-        <!-- Rubric Section 5: Logic Component (LEFT ALIGNED) -->
+        <!-- Rubric Section 5: Logic Component — Scratch Maze (LEFT ALIGNED) -->
         <section id="logic" class="rubric-section hidden-section">
             <div class="win95-window">
                 <div class="win95-titlebar">
-                    <div class="win95-titletext">Maze.sb3</div>
+                    <div class="win95-titletext">Maze.exe — Running</div>
                     <div class="win95-controls"><button class="win95-btn">X</button></div>
                 </div>
                 <div class="win95-body">
-                    <h2>Additional Component (10%)</h2>
-                    <p>Click below to play!</p>
-                    
-                    <div class="interactive-item center-item" onclick="toggleReveal('reveal-logic')">
-                        <img src="https://win98icons.alexmeub.com/icons/png/game_freecell-1.png" class="win-icon pixelated-img" alt="Game">
-                        <span class="icon-label">Play</span>
+                    <h2>Maze Navigation Game</h2>
+                    <p>Use arrow keys to navigate the maze!</p>
+
+                    <div class="crt-monitor-wrapper">
+                        <div class="crt-monitor">
+                            <div class="crt-top-bar">
+                                <span class="crt-brand">KC-TECH 2000</span>
+                            </div>
+                            <div class="crt-screen-bezel">
+                                <div class="crt-screen">
+                                    <iframe
+                                        src="KNES381_Scratch_Maze_Demo.html"
+                                        width="480"
+                                        height="360"
+                                        scrolling="no"
+                                        title="Maze Game">
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div class="crt-bottom-bar">
+                                <div class="crt-power-led"></div>
+                                <span class="crt-model-label">MODEL KC-2000</span>
+                                <div class="crt-adj-btns">
+                                    <div class="crt-adj-btn"></div>
+                                    <div class="crt-adj-btn"></div>
+                                    <div class="crt-adj-btn"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="crt-neck"></div>
+                        <div class="crt-stand"></div>
                     </div>
 
-                    <div id="reveal-logic" class="reveal-content hidden">
-                        <div class="logic-box">[ Scratch iframe ]</div>
-                    </div>
                 </div>
             </div>
 
             <img src="https://win98icons.alexmeub.com/icons/png/game_mine_1-0.png" class="scroll-icon right-icon pixelated-img" alt="Game">
         </section>
-        
+
         <footer>
             <p>Designed by KC • Contact: kc.galapati@gmail.com</p>
         </footer>

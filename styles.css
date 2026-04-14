@@ -106,34 +106,32 @@
     z-index: 3;
 }
 
-/* Pixel dither gradient canvas */
-#pixel-gradient-canvas {
-    display: block;
-    width: 100%;
-    /* height set by JS */
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-}
+/* Pixel border canvases are injected by JS into each section */
 
 @keyframes hint-fade {
     0%, 100% { opacity: 0.4; transform: translateY(0); }
     50%       { opacity: 1;   transform: translateY(4px); }
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 html {
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    padding: 0;
     font-family: 'VT323', monospace;
     font-size: 1.3rem;
     color: var(--win-text);
     background-color: var(--win-teal);
     cursor: url('https://win98icons.alexmeub.com/cursors/arrow.cur'), auto;
-    overflow-x: hidden;
 }
 
 a, button, .interactive-item {
@@ -153,13 +151,14 @@ a, button, .interactive-item {
 
 /* Each section fills the viewport as a snap slide */
 .rubric-section {
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     scroll-snap-align: start;
-    padding: 40px 20px;
+    padding: 60px 20px;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* Header */

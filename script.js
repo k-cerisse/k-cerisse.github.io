@@ -1,52 +1,80 @@
 /* =============================================
-   0. PIXEL DITHER GRADIENT (cream → Nokia green)
+   0. PIXEL BORDER EFFECT (random blocks, dense at edges)
    ============================================= */
 
-function renderDitherGradient() {
-    const canvas = document.getElementById('pixel-gradient-canvas');
-    if (!canvas) return;
+const CREAM = [240, 235, 224];
+const GREEN = [101, 122, 81];
+const PIXEL_SIZE = 16;  // each block = 16×16 screen pixels
+const BORDER_ROWS = 12; // how many pixel-rows tall the border is
 
-    // Bayer 8×8 ordered dithering matrix (values 0–63)
-    const BAYER = [
-        [ 0, 32,  8, 40,  2, 34, 10, 42],
-        [48, 16, 56, 24, 50, 18, 58, 26],
-        [12, 44,  4, 36, 14, 46,  6, 38],
-        [60, 28, 52, 20, 62, 30, 54, 22],
-        [ 3, 35, 11, 43,  1, 33,  9, 41],
-        [51, 19, 59, 27, 49, 17, 57, 25],
-        [15, 47,  7, 39, 13, 45,  5, 37],
-        [63, 31, 55, 23, 61, 29, 53, 21]
-    ];
+function drawPixelBorder(canvas, accentColor, edge) {
+    const section = canvas.parentElement;
+    const cols = Math.ceil(section.offsetWidth / PIXEL_SIZE);
+    canvas.width = cols;
+    canvas.height = BORDER_ROWS;
+    canvas.style.height = (BORDER_ROWS * PIXEL_SIZE) + 'px';
 
-    const PIXEL = 12;         // screen pixels per "pixel unit" (larger = chunkier)
-    const ROWS  = 28;         // pixel-unit rows tall
-    const colorA = [240, 235, 224];   // cream  #f0ebe0
-    const colorB = [101, 122,  81];   // sage green #657A51
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, cols, BORDER_ROWS);
 
-    function draw() {
-        const cols = Math.ceil(window.innerWidth / PIXEL);
-        canvas.width  = cols;
-        canvas.height = ROWS;
-        canvas.style.height = (ROWS * PIXEL) + 'px';
+    for (let r = 0; r < BORDER_ROWS; r++) {
+        // distFromEdge: 0 at the edge, 1 at the inner boundary
+        const distFromEdge = edge === 'top'
+            ? r / BORDER_ROWS
+            : (BORDER_ROWS - 1 - r) / BORDER_ROWS;
 
-        const ctx = canvas.getContext('2d');
-        for (let r = 0; r < ROWS; r++) {
-            // t: 0 = full cream, 1 = full Nokia green
-            const t = r / (ROWS - 1);
-            for (let c = 0; c < cols; c++) {
-                const threshold = BAYER[r % 8][c % 8] / 64;
-                const col = t > threshold ? colorB : colorA;
-                ctx.fillStyle = `rgb(${col[0]},${col[1]},${col[2]})`;
+        // Probability is high near the edge, drops off toward center
+        const prob = Math.pow(1 - distFromEdge, 2.2);
+
+        for (let c = 0; c < cols; c++) {
+            if (Math.random() < prob) {
+                ctx.fillStyle = `rgb(${accentColor[0]},${accentColor[1]},${accentColor[2]})`;
                 ctx.fillRect(c, r, 1, 1);
             }
         }
     }
-
-    draw();
-    window.addEventListener('resize', draw);
 }
 
-document.addEventListener('DOMContentLoaded', renderDitherGradient);
+function addPixelBorders(section) {
+    // Determine accent color from section background
+    const bg = getComputedStyle(section).backgroundColor;
+    // cream bg → green pixels; green bg → cream pixels
+    const accentColor = bg.includes('101') ? CREAM : GREEN;
+
+    ['top', 'bottom'].forEach(edge => {
+        const canvas = document.createElement('canvas');
+        canvas.className = 'pixel-border-canvas';
+        canvas.style.cssText = `
+            position:absolute; ${edge}:0; left:0; width:100%;
+            pointer-events:none; z-index:2;
+            image-rendering:pixelated; image-rendering:crisp-edges;
+        `;
+        section.appendChild(canvas);
+        drawPixelBorder(canvas, accentColor, edge);
+        window.addEventListener('resize', () => drawPixelBorder(canvas, accentColor, edge));
+    });
+}
+
+// Also add pixel borders to the intro hero (green pixels at bottom)
+function addHeroPixelBorder() {
+    const hero = document.querySelector('.intro-hero');
+    if (!hero) return;
+    const canvas = document.createElement('canvas');
+    canvas.className = 'pixel-border-canvas';
+    canvas.style.cssText = `
+        position:absolute; bottom:0; left:0; width:100%;
+        pointer-events:none; z-index:4;
+        image-rendering:pixelated; image-rendering:crisp-edges;
+    `;
+    hero.appendChild(canvas);
+    drawPixelBorder(canvas, GREEN, 'bottom');
+    window.addEventListener('resize', () => drawPixelBorder(canvas, GREEN, 'bottom'));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    addHeroPixelBorder();
+    document.querySelectorAll('.rubric-section').forEach(addPixelBorders);
+});
 
 /* =============================================
    1. INTRO PARALLAX

@@ -1371,6 +1371,22 @@ footer {
     font-size: 1rem;
 }
 
+.instagram-embed-wrap {
+    width: 320px;
+    height: 440px;
+    overflow: hidden;
+    border: 2px solid;
+    border-color: var(--win-shadow) var(--win-highlight) var(--win-highlight) var(--win-shadow);
+    margin-bottom: 8px;
+}
+
+.instagram-embed {
+    width: 320px;
+    height: 440px;
+    border: none;
+    display: block;
+}
+
 /* ── LIGHTBOX ───────────────────────────────── */
 .lightbox {
     display: none;

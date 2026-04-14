@@ -147,29 +147,50 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { animating = false; }, DURATION);
     }
 
-    // Position the screen-clip to the monitor's screen area.
-    // SL/ST/SR/SB = fractions of viewport size for each edge.
-    // The monitor-frame-img uses object-fit:fill so it exactly maps to the viewport.
-    const SL = 0.11, ST = 0.08, SR = 0.11, SB = 0.21;
+    // Barrel distortion: generate a displacement map via canvas, inject as SVG filter
+    function injectBarrelFilter() {
+        const size = 512;
+        const canvas = document.createElement('canvas');
+        canvas.width = size; canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.createImageData(size, size);
+        const cx = size / 2, cy = size / 2;
+        const strength = 0.12; // tweak: higher = more bulge
 
-    function positionDesktopScreen() {
-        const clip  = document.getElementById('screen-clip');
-        const slide = document.getElementById('win-desktop');
-        if (!clip || !slide) return;
-        const w = slide.offsetWidth;
-        const h = slide.offsetHeight;
-        clip.style.left   = (w * SL) + 'px';
-        clip.style.top    = (h * ST) + 'px';
-        clip.style.right  = (w * SR) + 'px';
-        clip.style.bottom = (h * SB) + 'px';
+        for (let y = 0; y < size; y++) {
+            for (let x = 0; x < size; x++) {
+                const nx = (x - cx) / cx;
+                const ny = (y - cy) / cy;
+                const r2 = nx * nx + ny * ny;
+                // Barrel distortion: pixels pushed outward from center
+                const scale = strength * r2;
+                const dx = nx * scale * cx + 128;
+                const dy = ny * scale * cy + 128;
+                const i = (y * size + x) * 4;
+                imageData.data[i]     = Math.max(0, Math.min(255, dx));
+                imageData.data[i + 1] = Math.max(0, Math.min(255, dy));
+                imageData.data[i + 2] = 0;
+                imageData.data[i + 3] = 255;
+            }
+        }
+        ctx.putImageData(imageData, 0, 0);
+        const dataUrl = canvas.toDataURL();
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;';
+        svg.innerHTML = `<defs>
+            <filter id="barrel" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+                <feImage href="${dataUrl}" result="map" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none"/>
+                <feDisplacementMap in="SourceGraphic" in2="map" scale="30" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+        </defs>`;
+        document.body.appendChild(svg);
+
+        const clip = document.getElementById('screen-clip');
+        if (clip) clip.style.filter = 'url(#barrel)';
     }
 
-    // Run on load, after images settle, and on resize
-    window.addEventListener('resize', positionDesktopScreen);
-    if (document.querySelector('.monitor-frame-img')) {
-        document.querySelector('.monitor-frame-img').addEventListener('load', positionDesktopScreen);
-    }
-    setTimeout(positionDesktopScreen, 200);
+    injectBarrelFilter();
 
     // CRT boot sequence: scanline → BIOS text → desktop reveal
     function runCrtBoot() {
@@ -199,6 +220,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             overlay.classList.add('fade-out');
             if (wallpaper) wallpaper.classList.add('visible');
+            // Auto-open About Me and Song Player after wallpaper fades in
+            setTimeout(() => {
+                openWindow('app-about');
+                openWindow('app-music');
+            }, 500);
         }, 3400);
     }
 
@@ -215,6 +241,30 @@ document.addEventListener('DOMContentLoaded', () => {
     window.closeWindow = function(id) {
         const el = document.getElementById(id);
         if (el) el.style.display = 'none';
+    };
+
+    window.minimizeWindow = function(id) {
+        const win = document.getElementById(id);
+        if (!win) return;
+        win.classList.toggle('minimized');
+    };
+
+    window.maximizeWindow = function(id) {
+        const win = document.getElementById(id);
+        if (!win) return;
+        if (win.classList.contains('maximized')) {
+            win.classList.remove('maximized');
+            // Restore saved position
+            if (win._savedStyle) { win.style.cssText = win._savedStyle; }
+        } else {
+            win._savedStyle = win.style.cssText;
+            win.classList.add('maximized');
+            win.style.top  = '0';
+            win.style.left = '0';
+            win.style.width = '100%';
+            win.style.maxWidth = '100%';
+        }
+        win.style.zIndex = ++zTop;
     };
 
     // Make all .app-frame elements draggable by their title bar
@@ -438,3 +488,142 @@ async function runAnalysis() {
 
     runBtn.disabled = false;
 }
+
+/* =============================================
+   4. SPRITE ANIMATION (kc_happy ↔ kc_blush)
+   ============================================= */
+
+(function initSpriteAnimation() {
+    const sprites = ['sprites/kc_happy.png', 'sprites/kc_blush.png'];
+    const messages = ['Nice to meet you!', 'Welcome to my portfolio!', "I'm KC!", 'Check out my work!'];
+    let spriteIdx = 0;
+    let msgIdx = 0;
+
+    setInterval(() => {
+        spriteIdx = (spriteIdx + 1) % sprites.length;
+        const img = document.getElementById('kc-win-sprite');
+        if (img) img.src = sprites[spriteIdx];
+
+        // Rotate speech bubble text every other swap
+        if (spriteIdx === 0) {
+            msgIdx = (msgIdx + 1) % messages.length;
+            const bubble = document.getElementById('kc-speech-bubble');
+            if (bubble) bubble.textContent = messages[msgIdx];
+        }
+    }, 2500);
+})();
+
+/* =============================================
+   5. MUSIC PLAYER
+   ============================================= */
+
+(function initMusicPlayer() {
+    // ── Song config — fill these in when you have the file ──
+    // To use a local file: set audioSrc to the filename, e.g. 'my_song.mp3'
+    // To use a URL: paste the direct link
+    const SONG = {
+        src:    '',           // audio source — leave blank until ready
+        artist: '—',
+        title:  '—',
+        art:    ''            // album art image path or URL
+    };
+
+    const audio    = document.getElementById('music-audio');
+    const playBtn  = document.getElementById('music-play-btn');
+    const volFill  = document.getElementById('music-vol-fill');
+    const progress = document.getElementById('music-progress-thumb');
+    const bar      = document.getElementById('music-progress-bar');
+    const curTime  = document.getElementById('music-current-time');
+    const totTime  = document.getElementById('music-total-time');
+    const artistEl = document.getElementById('music-artist');
+    const titleEl  = document.getElementById('music-title');
+    const artImg   = document.getElementById('music-album-art');
+
+    if (!audio) return;
+
+    // Apply song config
+    if (SONG.src)    audio.src = SONG.src;
+    if (SONG.artist) artistEl.textContent = SONG.artist;
+    if (SONG.title)  titleEl.textContent  = SONG.title;
+    if (SONG.art && artImg) artImg.src = SONG.art;
+
+    let volume = 0.7;
+    audio.volume = volume;
+    updateVolBar();
+
+    function updateVolBar() {
+        if (volFill) volFill.style.width = (volume * 100) + '%';
+    }
+
+    function formatTime(s) {
+        if (!isFinite(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60).toString().padStart(2, '0');
+        return `${m}:${sec}`;
+    }
+
+    // Playback toggle
+    window.musicTogglePlay = function() {
+        if (!audio.src || audio.src === window.location.href) {
+            // No song loaded yet — flash the title text
+            if (titleEl) { titleEl.textContent = 'No file loaded'; setTimeout(() => { titleEl.textContent = SONG.title || '—'; }, 1500); }
+            return;
+        }
+        if (audio.paused) {
+            audio.play();
+            if (playBtn) playBtn.innerHTML = '&#9646;&#9646;'; // pause icon
+        } else {
+            audio.pause();
+            if (playBtn) playBtn.innerHTML = '&#9654;'; // play icon
+        }
+    };
+
+    // Seek relative (seconds)
+    window.musicSeek = function(sec) {
+        audio.currentTime = Math.max(0, Math.min(audio.duration || 0, audio.currentTime + sec));
+    };
+
+    // Seek by clicking the progress bar
+    window.musicSeekClick = function(e) {
+        if (!bar || !audio.duration) return;
+        const rect = bar.getBoundingClientRect();
+        const frac = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = frac * audio.duration;
+    };
+
+    // Volume
+    window.musicVolUp = function() {
+        volume = Math.min(1, volume + 0.1);
+        audio.volume = volume;
+        updateVolBar();
+    };
+    window.musicVolDown = function() {
+        volume = Math.max(0, volume - 0.1);
+        audio.volume = volume;
+        updateVolBar();
+    };
+
+    // Update progress bar and timestamps as song plays
+    audio.addEventListener('timeupdate', () => {
+        if (!audio.duration) return;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        if (progress) progress.style.left = pct + '%';
+        if (curTime)  curTime.textContent  = formatTime(audio.currentTime);
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+        if (totTime) totTime.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', () => {
+        if (playBtn) playBtn.innerHTML = '&#9654;';
+        if (progress) progress.style.left = '0%';
+        if (curTime)  curTime.textContent  = '0:00';
+        // Auto-repeat if repeat is active
+        const repeatBtn = document.getElementById('music-repeat-btn');
+        if (repeatBtn && repeatBtn.classList.contains('active')) {
+            audio.currentTime = 0;
+            audio.play();
+        }
+    });
+})();

@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Jacquard+12&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 
@@ -74,6 +74,10 @@
                         <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="pixelated-img" alt="">
                         <span>About Me</span>
                     </div>
+                    <div class="win95-desktop-icon" ondblclick="openWindow('app-music')">
+                        <img src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd-3.png" class="pixelated-img" alt="">
+                        <span>Song Player</span>
+                    </div>
                     <div class="win95-desktop-icon" ondblclick="openWindow('app-vo2')">
                         <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" class="pixelated-img" alt="">
                         <span>VO2 Analyzer</span>
@@ -100,16 +104,23 @@
                     <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="">
                     <span class="win95-titletext">C:\My_Documents\About_Me.txt</span>
                     <div class="win95-controls">
-                        <button class="win95-btn">_</button>
-                        <button class="win95-btn">□</button>
+                        <button class="win95-btn" onclick="minimizeWindow('app-about')">_</button>
+                        <button class="win95-btn" onclick="maximizeWindow('app-about')">□</button>
                         <button class="win95-btn" onclick="closeWindow('app-about')">X</button>
                     </div>
                 </div>
                 <div class="win95-body app-body">
-                    <div class="intro-block">
-                        <h1>Hello! My name is Kiersten Cerisse Galapati.</h1>
-                        <p>My nickname is KC. I am a student interested in health and medicine.</p>
-                        <p><i>>> Explore the folders below:</i></p>
+                    <!-- Sprite + intro side by side -->
+                    <div class="about-sprite-row">
+                        <div class="about-sprite-col">
+                            <div class="speech-bubble" id="kc-speech-bubble">Nice to meet you!</div>
+                            <img src="sprites/kc_happy.png" id="kc-win-sprite" class="kc-win-sprite" alt="KC sprite">
+                        </div>
+                        <div class="intro-block" style="flex:1;">
+                            <h1>Hello! My name is Kiersten Cerisse Galapati.</h1>
+                            <p>My nickname is KC. I am a student interested in health and medicine.</p>
+                            <p><i>>> Explore the folders below:</i></p>
+                        </div>
                     </div>
                     <div class="interactive-folder-grid">
                         <div class="interactive-item" onclick="toggleReveal('reveal-edu')">
@@ -155,8 +166,8 @@
                     <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="">
                     <span class="win95-titletext">C:\Programs\VO2_Analyzer.exe</span>
                     <div class="win95-controls">
-                        <button class="win95-btn">_</button>
-                        <button class="win95-btn">□</button>
+                        <button class="win95-btn" onclick="minimizeWindow('app-vo2')">_</button>
+                        <button class="win95-btn" onclick="maximizeWindow('app-vo2')">□</button>
                         <button class="win95-btn" onclick="closeWindow('app-vo2')">X</button>
                     </div>
                 </div>
@@ -191,8 +202,8 @@
                     <img src="https://win98icons.alexmeub.com/icons/png/game_mine_1-0.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="">
                     <span class="win95-titletext">Scratch_Maze_Game.exe</span>
                     <div class="win95-controls">
-                        <button class="win95-btn">_</button>
-                        <button class="win95-btn">□</button>
+                        <button class="win95-btn" onclick="minimizeWindow('app-game')">_</button>
+                        <button class="win95-btn" onclick="maximizeWindow('app-game')">□</button>
                         <button class="win95-btn" onclick="closeWindow('app-game'); dsStopGame()">X</button>
                     </div>
                 </div>
@@ -205,10 +216,80 @@
                 </div>
             </div>
 
-        </div><!-- end screen-clip -->
+            <!-- APP WINDOW: Song Player -->
+            <div class="app-frame" id="app-music" style="display:none; top:7%; left:52%; width:300px;">
+                <div class="win95-titlebar app-titlebar" style="background: #1e5e1e;">
+                    <img src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd-3.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="">
+                    <span class="win95-titletext">Song</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" onclick="minimizeWindow('app-music')">_</button>
+                        <button class="win95-btn" onclick="maximizeWindow('app-music')">□</button>
+                        <button class="win95-btn" onclick="closeWindow('app-music')">X</button>
+                    </div>
+                </div>
+                <div class="win95-body app-body music-player-body">
+                    <audio id="music-audio" preload="none"></audio>
 
-        <!-- Monitor frame overlay (always visible, outside screen-clip) -->
-        <img src="crt-tv.png" class="monitor-frame-img" alt="" onerror="this.style.display='none'">
+                    <!-- Album art + right controls -->
+                    <div class="music-top">
+                        <img class="music-album-art" id="music-album-art" src="" alt="Album Art">
+                        <div class="music-right-panel">
+                            <div class="music-cd-vol">
+                                <img src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd-3.png" class="music-cd pixelated-img" alt="CD">
+                                <div class="music-vol">
+                                    <button class="music-vol-btn" onclick="musicVolUp()">+</button>
+                                    <div class="music-vol-track"><div class="music-vol-fill" id="music-vol-fill"></div></div>
+                                    <button class="music-vol-btn" onclick="musicVolDown()">-</button>
+                                </div>
+                            </div>
+                            <!-- Row 1: play/pause, shuffle, repeat -->
+                            <div class="music-btn-row">
+                                <button class="music-ctrl-btn" id="music-play-btn" onclick="musicTogglePlay()">&#9654;</button>
+                                <button class="music-ctrl-btn" id="music-shuffle-btn" onclick="this.classList.toggle('active')" title="Shuffle">&#8652;</button>
+                                <button class="music-ctrl-btn" id="music-repeat-btn" onclick="this.classList.toggle('active')" title="Repeat">&#8635;</button>
+                            </div>
+                            <!-- Row 2: prev, rewind, ffwd, next, heart -->
+                            <div class="music-btn-row">
+                                <button class="music-ctrl-btn" onclick="musicSeek(-30)" title="Prev">|&#9664;</button>
+                                <button class="music-ctrl-btn" onclick="musicSeek(-5)" title="Rewind">&#9664;&#9664;</button>
+                                <button class="music-ctrl-btn" onclick="musicSeek(5)" title="Fast fwd">&#9654;&#9654;</button>
+                                <button class="music-ctrl-btn" onclick="musicSeek(30)" title="Next">&#9654;|</button>
+                                <button class="music-ctrl-btn" id="music-heart-btn" onclick="this.classList.toggle('active')" title="Favourite">&#9829;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artist / Title -->
+                    <div class="music-info-row">
+                        <span class="music-label">Artist:</span>
+                        <div class="music-field">
+                            <span id="music-artist">—</span>
+                            <span class="music-dropdown">&#9660;</span>
+                        </div>
+                    </div>
+                    <div class="music-info-row">
+                        <span class="music-label">Title:</span>
+                        <div class="music-field">
+                            <span id="music-title">—</span>
+                            <span class="music-dropdown">&#9660;</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress bar -->
+                    <div class="music-progress-row">
+                        <span class="music-time" id="music-current-time">0:00</span>
+                        <div class="music-progress-bar" id="music-progress-bar" onclick="musicSeekClick(event)">
+                            <div class="music-progress-thumb" id="music-progress-thumb"></div>
+                        </div>
+                        <span class="music-time" id="music-total-time">0:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CRT filter overlay: scanlines, vignette, glass shine (topmost, pointer-events:none) -->
+            <div class="crt-effect" aria-hidden="true"></div>
+
+        </div><!-- end screen-clip -->
 
     </section>
 
@@ -219,6 +300,6 @@
         <p>Designed by KC • Contact: kc.galapati@gmail.com</p>
     </footer>
 
-<script src="script.js?v=3"></script>
+<script src="script.js?v=5"></script>
 </body>
 </html>

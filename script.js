@@ -46,7 +46,7 @@ function addPixelBorders(section) {
         canvas.className = 'pixel-border-canvas';
         canvas.style.cssText = `
             position:absolute; ${edge}:0; left:0; width:100%;
-            pointer-events:none; z-index:2;
+            pointer-events:none; z-index:0;
             image-rendering:pixelated; image-rendering:crisp-edges;
         `;
         section.appendChild(canvas);
@@ -63,7 +63,7 @@ function addHeroPixelBorder() {
     canvas.className = 'pixel-border-canvas';
     canvas.style.cssText = `
         position:absolute; bottom:0; left:0; width:100%;
-        pointer-events:none; z-index:4;
+        pointer-events:none; z-index:0;
         image-rendering:pixelated; image-rendering:crisp-edges;
     `;
     hero.appendChild(canvas);
@@ -72,22 +72,9 @@ function addHeroPixelBorder() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    addHeroPixelBorder();
+    // Hero pixel border intentionally omitted — title page is clean
     document.querySelectorAll('.rubric-section').forEach(addPixelBorders);
 });
-
-/* =============================================
-   1. INTRO PARALLAX
-   ============================================= */
-
-const introComputer = document.getElementById('intro-computer');
-const introTitle    = document.getElementById('intro-title');
-
-window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    if (introComputer) introComputer.style.transform = `translateY(${y * 0.55}px)`;
-    if (introTitle)    introTitle.style.transform    = `translateY(${y * 0.3}px)`;
-}, { passive: true });
 
 /* =============================================
    1. INTERACTIVE ICONS LOGIC (Click to Reveal)
@@ -107,56 +94,205 @@ function toggleReveal(targetId) {
 const DS_GAME_SRC = 'KNES381_Scratch_Maze_Demo.html';
 
 function dsStartGame() {
-    const iframe = document.querySelector('.ds-top-screen iframe');
+    const iframe = document.getElementById('game-iframe') || document.querySelector('.ds-top-screen iframe');
     if (!iframe) return;
     iframe.src = DS_GAME_SRC;
 }
 
 function dsStopGame() {
-    const iframe = document.querySelector('.ds-top-screen iframe');
+    const iframe = document.getElementById('game-iframe') || document.querySelector('.ds-top-screen iframe');
     if (!iframe) return;
-    // Navigate iframe away to kill all game audio + JS
     iframe.src = 'about:blank';
     try { iframe.contentWindow.location.replace('about:blank'); } catch(e) {}
 }
 
-
 /* =============================================
-   2. SCROLLING ANIMATIONS (IntersectionObserver)
+   2. JS-DRIVEN SLIDE NAVIGATION
    ============================================= */
 
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.15
-};
-
-const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            showSection(entry.target);
-        }
-    });
-}, observerOptions);
-
-function showSection(section) {
-    section.classList.remove('hidden-section');
-    section.classList.add('visible-section');
-    const icon = section.querySelector('.scroll-icon');
-    if (icon) icon.classList.add('show-icon');
-    const sprite = section.querySelector('.kc-sprite-wrapper');
-    if (sprite) sprite.classList.add('kc-visible');
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.rubric-section').forEach(section => {
-        sectionObserver.observe(section);
-        // Immediately show sections already in the viewport (don't wait for scroll)
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-            showSection(section);
+    const splash      = document.getElementById('splash');
+    const track       = document.getElementById('slide-track');
+    // Only two real slides: hero (1) and desktop (2)
+    const slides      = Array.from(track ? track.querySelectorAll('.intro-hero, .desktop-slide') : []);
+    const allSections = [null, ...slides]; // index 0 = splash, 1+ = track slides
+    let current = 0;
+    let animating = false;
+    const DURATION = 750;
+
+    function goTo(index) {
+        if (animating) return;
+        if (index < 0 || index > allSections.length - 1) return;
+        if (index === current) return;
+        animating = true;
+
+        if (index === 0) {
+            if (splash) splash.classList.remove('slide-out');
+            if (track) track.style.transform = '';
+        } else {
+            if (current === 0 && splash) splash.classList.add('slide-out');
+            const slideIndex = index - 1;
+            if (track) track.style.transform = `translateY(-${slideIndex * 100}vh)`;
+
+            const targetSlide = allSections[index];
+            if (targetSlide) showSection(targetSlide);
+
+            // CRT boot animation when landing on the Windows desktop
+            if (targetSlide && targetSlide.id === 'win-desktop') {
+                runCrtBoot();
+            }
         }
+
+        current = index;
+        setTimeout(() => { animating = false; }, DURATION);
+    }
+
+    // Position the screen-clip to the monitor's screen area.
+    // SL/ST/SR/SB = fractions of viewport size for each edge.
+    // The monitor-frame-img uses object-fit:fill so it exactly maps to the viewport.
+    const SL = 0.11, ST = 0.08, SR = 0.11, SB = 0.21;
+
+    function positionDesktopScreen() {
+        const clip  = document.getElementById('screen-clip');
+        const slide = document.getElementById('win-desktop');
+        if (!clip || !slide) return;
+        const w = slide.offsetWidth;
+        const h = slide.offsetHeight;
+        clip.style.left   = (w * SL) + 'px';
+        clip.style.top    = (h * ST) + 'px';
+        clip.style.right  = (w * SR) + 'px';
+        clip.style.bottom = (h * SB) + 'px';
+    }
+
+    // Run on load, after images settle, and on resize
+    window.addEventListener('resize', positionDesktopScreen);
+    if (document.querySelector('.monitor-frame-img')) {
+        document.querySelector('.monitor-frame-img').addEventListener('load', positionDesktopScreen);
+    }
+    setTimeout(positionDesktopScreen, 200);
+
+    // CRT boot sequence: scanline → BIOS text → desktop reveal
+    function runCrtBoot() {
+        const overlay  = document.getElementById('crt-boot-overlay');
+        const wallpaper = document.getElementById('win95-wallpaper');
+        const bar      = document.getElementById('bios-progress-bar');
+        if (!overlay) return;
+
+        // Close any open app windows before boot plays
+        document.querySelectorAll('.app-frame').forEach(w => { w.style.display = 'none'; });
+
+        // Reset state
+        overlay.classList.remove('phase-1', 'phase-2', 'fade-out');
+        if (wallpaper) wallpaper.classList.remove('visible');
+        if (bar) bar.style.animation = 'none', void bar.offsetWidth, bar.style.animation = '';
+
+        // Phase 1: scan-line flash (0ms)
+        void overlay.offsetWidth;
+        overlay.classList.add('phase-1');
+
+        // Phase 2: BIOS text (400ms after phase 1)
+        setTimeout(() => {
+            overlay.classList.add('phase-2');
+        }, 400);
+
+        // Reveal desktop (BIOS done ~3.3s in, progress fills to 100% at ~3.1s)
+        setTimeout(() => {
+            overlay.classList.add('fade-out');
+            if (wallpaper) wallpaper.classList.add('visible');
+        }, 3400);
+    }
+
+    // ── APP WINDOW MANAGEMENT ──────────────────────────────
+    let zTop = 20;
+
+    window.openWindow = function(id) {
+        const win = document.getElementById(id);
+        if (!win) return;
+        win.style.display = 'block';
+        win.style.zIndex  = ++zTop;
+    };
+
+    window.closeWindow = function(id) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    };
+
+    // Make all .app-frame elements draggable by their title bar
+    document.querySelectorAll('.app-frame').forEach(frame => {
+        const bar = frame.querySelector('.app-titlebar');
+        if (!bar) return;
+        let dragging = false, mx = 0, my = 0, ox = 0, oy = 0;
+
+        bar.addEventListener('mousedown', e => {
+            if (e.target.closest('.win95-controls')) return; // don't drag on buttons
+            dragging = true;
+            mx = e.clientX; my = e.clientY;
+            const r  = frame.getBoundingClientRect();
+            const pr = frame.parentElement.getBoundingClientRect();
+            ox = r.left - pr.left;
+            oy = r.top  - pr.top;
+            frame.style.zIndex = ++zTop;
+            e.preventDefault();
+        });
+
+        // Bring to front on any click
+        frame.addEventListener('mousedown', () => { frame.style.zIndex = ++zTop; });
+
+        window.addEventListener('mousemove', e => {
+            if (!dragging) return;
+            frame.style.left = (ox + e.clientX - mx) + 'px';
+            frame.style.top  = (oy + e.clientY - my) + 'px';
+        });
+
+        window.addEventListener('mouseup', () => { dragging = false; });
     });
+
+    function showSection(section) {
+        section.classList.remove('hidden-section');
+        section.classList.add('visible-section');
+        const icon = section.querySelector('.scroll-icon');
+        if (icon) icon.classList.add('show-icon');
+        const sprite = section.querySelector('.kc-sprite-wrapper');
+        if (sprite) sprite.classList.add('kc-visible');
+    }
+
+    // Taskbar clock
+    function updateClock() {
+        const el = document.getElementById('taskbar-clock');
+        if (!el) return;
+        const now = new Date();
+        const h = now.getHours().toString().padStart(2, '0');
+        const m = now.getMinutes().toString().padStart(2, '0');
+        el.textContent = `${h}:${m}`;
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    // Wheel scroll
+    let wheelAccum = 0;
+    const WHEEL_THRESHOLD = 60;
+    window.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        wheelAccum += e.deltaY;
+        if (Math.abs(wheelAccum) >= WHEEL_THRESHOLD) {
+            goTo(current + (wheelAccum > 0 ? 1 : -1));
+            wheelAccum = 0;
+        }
+    }, { passive: false });
+
+    // Keyboard
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goTo(current + 1); }
+        if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goTo(current - 1); }
+    });
+
+    // Touch
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchend', (e) => {
+        const dy = touchStartY - e.changedTouches[0].clientY;
+        if (Math.abs(dy) > 40) goTo(current + (dy > 0 ? 1 : -1));
+    }, { passive: true });
 
     // Wire up CSV file input
     const csvInput = document.getElementById('csv-input');

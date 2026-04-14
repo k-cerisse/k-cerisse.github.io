@@ -21,6 +21,70 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* =============================================
+   SPLASH SCREEN
+   ============================================= */
+
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background-color: #0d0d0d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.splash-screen.slide-out {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+}
+
+.splash-content {
+    text-align: center;
+}
+
+.splash-eyebrow {
+    font-family: 'VT323', monospace;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    color: #657A51;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: splash-fade-in 1s ease 0.3s forwards;
+}
+
+.splash-title {
+    font-family: 'Qager', monospace;
+    font-size: clamp(4rem, 12vw, 11rem);
+    font-weight: 400;
+    line-height: 0.95;
+    color: #f0ebe0;
+    -webkit-font-smoothing: none;
+    opacity: 0;
+    animation: splash-fade-in 1s ease 0.7s forwards;
+}
+
+.splash-scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    color: #657A51;
+    opacity: 0;
+    animation: splash-fade-in 1s ease 1.4s forwards, hint-fade 2s ease-in-out 2.4s infinite;
+}
+
+@keyframes splash-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================
    INTRO HERO
    ============================================= */
 
@@ -28,9 +92,9 @@
     position: relative;
     width: 100%;
     height: 100vh;
+    flex-shrink: 0;
     background-color: var(--cream);
     overflow: hidden;
-    scroll-snap-align: start;
 }
 
 /* PC image — centered, large, parallax layer */
@@ -49,9 +113,7 @@
     width: 100%;
     height: auto;
     display: block;
-    /* drop-shadow so the white PNG bg blends into cream */
     filter: drop-shadow(0 20px 60px rgba(0,0,0,0.18));
-    mix-blend-mode: multiply;
 }
 
 /* Title block — big overlay over the PC image */
@@ -63,7 +125,7 @@
     z-index: 3;
     padding: 20px 5vw 40px 5vw;
     will-change: transform;
-    background: linear-gradient(to top, var(--cream) 55%, transparent);
+    background: none;
 }
 
 .intro-eyebrow {
@@ -121,9 +183,11 @@ html, body {
 }
 
 html {
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
+    overflow-y: hidden;
+}
+
+body {
+    overflow-y: hidden;
 }
 
 body {
@@ -142,6 +206,267 @@ a, button, .interactive-item {
     image-rendering: pixelated;
 }
 
+/* =============================================
+   WINDOWS 95 DESKTOP SLIDE
+   ============================================= */
+
+.desktop-slide {
+    height: 100vh;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* ── BOOT OVERLAY ───────────────────────────── */
+.crt-boot-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+.crt-boot-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Phase 1: white scan-line expand */
+.crt-boot-line {
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%; height: 3px;
+    background: #fff;
+    transform: scaleX(0);
+    opacity: 0;
+}
+.crt-boot-overlay.phase-1 .crt-boot-line {
+    animation: scanline-expand 0.35s cubic-bezier(0.2,0,0.8,1) forwards;
+}
+@keyframes scanline-expand {
+    0%   { transform: scaleX(0);   opacity: 1; }
+    60%  { transform: scaleX(1);   opacity: 1; }
+    100% { transform: scaleX(1);   opacity: 0.6; }
+}
+
+/* Phase 2: BIOS text block */
+.crt-boot-bios {
+    font-family: 'VT323', monospace;
+    font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+    color: #c8c8c8;
+    line-height: 1.7;
+    padding: 20px 28px;
+    width: 100%;
+    max-width: 640px;
+    opacity: 0;
+}
+.crt-boot-overlay.phase-2 .crt-boot-bios {
+    opacity: 1;
+}
+
+.bios-line {
+    opacity: 0;
+}
+.crt-boot-overlay.phase-2 .bios-line {
+    animation: bios-type 0.01s ease var(--d, 0s) forwards;
+}
+@keyframes bios-type {
+    to { opacity: 1; }
+}
+
+/* Progress bar */
+.bios-progress-wrap {
+    margin-top: 10px;
+    width: 100%;
+    height: 16px;
+    border: 1px solid #555;
+    background: #111;
+    opacity: 0;
+}
+.crt-boot-overlay.phase-2 .bios-progress-wrap {
+    animation: bios-type 0.01s ease var(--d, 0s) forwards;
+}
+.bios-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #657A51;
+}
+.crt-boot-overlay.phase-2 .bios-progress-bar {
+    animation: progress-fill 1.4s linear 1.7s forwards;
+}
+@keyframes progress-fill {
+    0%   { width: 0%; }
+    60%  { width: 72%; }
+    85%  { width: 88%; }
+    100% { width: 100%; }
+}
+
+/* ── SCREEN CLIP: bounds set by JS, clips all screen content ── */
+.screen-clip {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 4% / 5%;   /* match CRT rounded corners */
+    z-index: 2;
+}
+
+/* ── WINDOWS DESKTOP ────────────────────────── */
+.win95-wallpaper {
+    position: absolute;
+    inset: 0;
+    background-color: #657A51;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.win95-wallpaper.visible {
+    opacity: 1;
+}
+
+/* ── DRAGGABLE APP WINDOWS ───────────────────── */
+.app-frame {
+    position: absolute;
+    z-index: 10;
+    min-width: 260px;
+    max-width: 92%;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.5);
+}
+.app-frame .win95-body.app-body {
+    max-height: 55vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.app-frame .win95-body.app-body--game {
+    padding: 6px;
+    overflow: hidden;
+}
+.app-titlebar {
+    cursor: move;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+/* ── MONITOR FRAME OVERLAY ──────────────────── */
+.monitor-frame-img {
+    position: absolute;
+    inset: -6% -3% -20% -3%;  /* expand past viewport edges to hide white padding */
+    width: calc(100% + 6%);
+    height: calc(100% + 26%);
+    object-fit: fill;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 8;
+}
+
+/* Desktop icon grid */
+.win95-icon-grid {
+    flex: 1;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.win95-desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: url('https://win98icons.alexmeub.com/cursors/pointer.cur'), pointer;
+    width: 72px;
+    padding: 4px;
+    border: 1px solid transparent;
+    user-select: none;
+}
+
+.win95-desktop-icon:hover {
+    border-color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.12);
+}
+
+.win95-desktop-icon img {
+    width: 48px;
+    height: 48px;
+}
+
+.win95-desktop-icon span {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    color: #fff;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+    line-height: 1.1;
+    word-break: break-word;
+    max-width: 68px;
+}
+
+/* Taskbar */
+.win95-taskbar {
+    height: 36px;
+    background: var(--win-surface);
+    border-top: 2px solid var(--win-highlight);
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.taskbar-start-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 26px;
+    padding: 0 8px;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: var(--win-surface);
+    color: #000;
+    border: 2px solid;
+    border-color: var(--win-highlight) var(--win-shadow) var(--win-shadow) var(--win-highlight);
+    cursor: url('https://win98icons.alexmeub.com/cursors/pointer.cur'), pointer;
+}
+
+.taskbar-start-btn:active {
+    border-color: var(--win-shadow) var(--win-highlight) var(--win-highlight) var(--win-shadow);
+}
+
+.taskbar-tray {
+    margin-left: auto;
+    height: 26px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    border: 2px solid;
+    border-color: var(--win-shadow) var(--win-highlight) var(--win-highlight) var(--win-shadow);
+}
+
+.taskbar-clock {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    color: #000;
+}
+
+/* --- SLIDE CONTAINER (JS-driven, no CSS snap) --- */
+#slide-container {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+}
+
+#slide-track {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+    transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
 /* --- DYNAMIC ASYMMETRICAL LAYOUT --- */
 .desktop-container {
     display: flex;
@@ -155,7 +480,6 @@ a, button, .interactive-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    scroll-snap-align: start;
     padding: 60px 20px;
     box-sizing: border-box;
     overflow: hidden;

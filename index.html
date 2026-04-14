@@ -11,6 +11,19 @@
 </head>
 <body>
 
+    <!-- SPLASH — dark cinematic opening -->
+    <section class="splash-screen" id="splash">
+        <div class="splash-content">
+            <p class="splash-eyebrow">KNES 381</p>
+            <h1 class="splash-title">Final Project</h1>
+        </div>
+        <div class="splash-scroll-hint">scroll ↓</div>
+    </section>
+
+    <!-- SLIDE CONTAINER: hero + all sections slide as one track -->
+    <div id="slide-container">
+    <div id="slide-track">
+
     <!-- INTRO HERO — outside desktop-container so it's full width -->
     <section class="intro-hero">
         <div class="intro-computer-wrap" id="intro-computer">
@@ -30,28 +43,74 @@
         <div class="intro-scroll-hint">scroll ↓</div>
     </section>
 
-    <main class="desktop-container">
+    <!-- WINDOWS DESKTOP — final destination, all content lives here as app windows -->
+    <section id="win-desktop" class="desktop-slide">
 
-        <!-- Rubric Section 1/2: About Me (LEFT ALIGNED) -->
-        <section id="about" class="rubric-section hidden-section">
-            <div class="kc-sprite-wrapper" style="left: 30px;">
-                <div class="speech-bubble">hi, i'm KC! 👋</div>
-                <img src="sprites/kc_sit.png" class="kc-sprite" alt="KC sitting">
-            </div>
-            <div class="win95-window">
-                <div class="win95-titlebar">
-                    <div class="win95-titletext">C:\My_Documents\About_Me.txt</div>
-                    <div class="win95-controls">
-                        <button class="win95-btn">_</button><button class="win95-btn">□</button><button class="win95-btn">X</button>
+        <!-- Screen clip: everything inside is clipped to the CRT screen area.
+             Positioned dynamically by positionDesktopScreen() in JS.
+             overflow:hidden + border-radius eliminates the green bleed past the bezel. -->
+        <div class="screen-clip" id="screen-clip">
+
+            <!-- BOOT SEQUENCE (inside screen, frame always visible outside) -->
+            <div class="crt-boot-overlay" id="crt-boot-overlay">
+                <div class="crt-boot-line" id="crt-boot-line"></div>
+                <div class="crt-boot-bios" id="crt-boot-bios">
+                    <p class="bios-line" style="--d:0.0s">KNES/381 BIOS v2.0.1 (C) 1995</p>
+                    <p class="bios-line" style="--d:0.3s">CPU: Intel Pentium 100MHz</p>
+                    <p class="bios-line" style="--d:0.6s">Memory Test: 640K OK</p>
+                    <p class="bios-line" style="--d:0.9s">Detecting IDE drives... OK</p>
+                    <p class="bios-line" style="--d:1.2s">&nbsp;</p>
+                    <p class="bios-line" style="--d:1.4s">Loading Windows 95...</p>
+                    <div class="bios-progress-wrap" style="--d:1.7s">
+                        <div class="bios-progress-bar" id="bios-progress-bar"></div>
                     </div>
                 </div>
-                <div class="win95-body">
+            </div>
+
+            <!-- WINDOWS DESKTOP WALLPAPER + TASKBAR -->
+            <div class="win95-wallpaper" id="win95-wallpaper">
+                <div class="win95-icon-grid">
+                    <div class="win95-desktop-icon" ondblclick="openWindow('app-about')">
+                        <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="pixelated-img" alt="">
+                        <span>About Me</span>
+                    </div>
+                    <div class="win95-desktop-icon" ondblclick="openWindow('app-vo2')">
+                        <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" class="pixelated-img" alt="">
+                        <span>VO2 Analyzer</span>
+                    </div>
+                    <div class="win95-desktop-icon" ondblclick="openWindow('app-game')">
+                        <img src="https://win98icons.alexmeub.com/icons/png/game_mine_1-0.png" class="pixelated-img" alt="">
+                        <span>Maze Game</span>
+                    </div>
+                </div>
+                <div class="win95-taskbar">
+                    <button class="taskbar-start-btn">
+                        <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" class="pixelated-img" style="width:18px;height:18px;" alt="">
+                        Start
+                    </button>
+                    <div class="taskbar-tray">
+                        <span class="taskbar-clock" id="taskbar-clock">--:--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- APP WINDOW: About Me -->
+            <div class="app-frame" id="app-about" style="display:none; top:6%; left:4%;">
+                <div class="win95-titlebar app-titlebar">
+                    <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="">
+                    <span class="win95-titletext">C:\My_Documents\About_Me.txt</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn">_</button>
+                        <button class="win95-btn">□</button>
+                        <button class="win95-btn" onclick="closeWindow('app-about')">X</button>
+                    </div>
+                </div>
+                <div class="win95-body app-body">
                     <div class="intro-block">
                         <h1>Hello! My name is Kiersten Cerisse Galapati.</h1>
                         <p>My nickname is KC. I am a student interested in health and medicine.</p>
                         <p><i>>> Explore the folders below:</i></p>
                     </div>
-
                     <div class="interactive-folder-grid">
                         <div class="interactive-item" onclick="toggleReveal('reveal-edu')">
                             <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="win-icon pixelated-img" alt="Folder">
@@ -66,8 +125,6 @@
                             <span class="icon-label">Interests</span>
                         </div>
                     </div>
-
-                    <!-- Hidden Contents -->
                     <div id="reveal-edu" class="reveal-content hidden">
                         <fieldset class="win-fieldset">
                             <legend>Education.exe</legend>
@@ -92,44 +149,34 @@
                 </div>
             </div>
 
-            <img src="https://win98icons.alexmeub.com/icons/png/paint_file-1.png" class="floating-asset asset-paint pixelated-img" style="top:-30px; right:-60px; width:70px;">
-            <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" class="scroll-icon left-icon pixelated-img" alt="Computer">
-        </section>
-
-        <!-- Rubric Sections 3 & 4: Computation + Data Visualization (RIGHT ALIGNED, wider) -->
-        <section id="computation" class="rubric-section rubric-section--wide hidden-section">
-            <div class="kc-sprite-wrapper" style="right: 40px;">
-                <div class="speech-bubble">upload your data! 📊</div>
-                <img src="sprites/kc_wave.png" class="kc-sprite" alt="KC waving">
-            </div>
-            <div class="win95-window">
-                <div class="win95-titlebar">
-                    <div class="win95-titletext">C:\Programs\VO2_Analyzer.exe</div>
-                    <div class="win95-controls"><button class="win95-btn">X</button></div>
+            <!-- APP WINDOW: VO2 Analyzer -->
+            <div class="app-frame" id="app-vo2" style="display:none; top:5%; left:8%;">
+                <div class="win95-titlebar app-titlebar">
+                    <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="">
+                    <span class="win95-titletext">C:\Programs\VO2_Analyzer.exe</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn">_</button>
+                        <button class="win95-btn">□</button>
+                        <button class="win95-btn" onclick="closeWindow('app-vo2')">X</button>
+                    </div>
                 </div>
-                <div class="win95-body">
+                <div class="win95-body app-body">
                     <h2>VO&#x2082; Analysis Tool</h2>
                     <p>Upload a subject CSV file to generate metabolic plots.</p>
-
                     <div class="analysis-layout">
-                        <!-- Left: controls -->
                         <div class="analysis-left">
                             <div class="upload-zone" id="upload-zone" onclick="document.getElementById('csv-input').click()">
                                 <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="win-icon pixelated-img" alt="Folder">
                                 <span id="upload-label">Click to upload .csv file</span>
                                 <input type="file" id="csv-input" accept=".csv" style="display:none">
                             </div>
-
                             <div class="code-box" id="py-status-box">
                                 <p id="py-status">>> Click the folder icon to upload a CSV file.</p>
                             </div>
-
                             <button class="win95-run-btn" id="run-btn" onclick="runAnalysis()" disabled>
                                 &#9654; Run Analysis
                             </button>
                         </div>
-
-                        <!-- Right: chart output -->
                         <div class="analysis-right">
                             <div id="plot-placeholder" class="fake-chart">[ Chart output appears here ]</div>
                             <img id="plot-output" style="display:none; width:100%;" alt="Generated VO2 metabolic charts">
@@ -138,116 +185,40 @@
                 </div>
             </div>
 
-
-            <img src="https://win98icons.alexmeub.com/icons/png/msdos-1.png" class="scroll-icon right-icon pixelated-img" alt="DOS">
-        </section>
-
-        <!-- Rubric Section 5: Logic Component — Scratch Maze (LEFT ALIGNED) -->
-        <section id="logic" class="rubric-section rubric-section--wide hidden-section">
-            <div class="kc-sprite-wrapper" style="left: 50px;">
-                <div class="speech-bubble">try to beat my score! 🎮</div>
-                <img src="sprites/kc_yay.png" class="kc-sprite" alt="KC cheering">
+            <!-- APP WINDOW: Maze Game -->
+            <div class="app-frame" id="app-game" style="display:none; top:4%; left:6%;">
+                <div class="win95-titlebar app-titlebar">
+                    <img src="https://win98icons.alexmeub.com/icons/png/game_mine_1-0.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="">
+                    <span class="win95-titletext">Scratch_Maze_Game.exe</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn">_</button>
+                        <button class="win95-btn">□</button>
+                        <button class="win95-btn" onclick="closeWindow('app-game'); dsStopGame()">X</button>
+                    </div>
+                </div>
+                <div class="win95-body app-body app-body--game">
+                    <iframe src="KNES381_Scratch_Maze_Demo.html" id="game-iframe" scrolling="no" title="Maze Game" style="width:480px; height:360px; border:none; display:block;"></iframe>
+                    <div style="display:flex; gap:8px; padding:6px 0 2px;">
+                        <button class="ds-game-btn ds-start-btn" onclick="dsStartGame()">&#9654; START</button>
+                        <button class="ds-game-btn ds-stop-btn" onclick="dsStopGame()">&#9632; STOP</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Nintendo 3DS -->
-            <div class="ds-unit">
+        </div><!-- end screen-clip -->
 
-                <!-- Top half: lid -->
-                <div class="ds-lid">
-                    <div class="ds-lid-inner">
-                        <div class="ds-top-bar">
-                            <div class="ds-camera"></div>
-                        </div>
-                        <div class="ds-top-bezel">
-                            <div class="ds-top-screen">
-                                <iframe
-                                    src="KNES381_Scratch_Maze_Demo.html"
-                                    scrolling="no"
-                                    title="Maze Game">
-                                </iframe>
-                            </div>
-                        </div>
-                        <div class="ds-speakers">
-                            <div class="ds-speaker-left">
-                                <div class="ds-speaker-dot"></div>
-                                <div class="ds-speaker-dot"></div>
-                                <div class="ds-speaker-dot"></div>
-                                <div class="ds-speaker-dot"></div>
-                            </div>
-                            <div class="ds-speaker-right">
-                                <div class="ds-speaker-dot"></div>
-                                <div class="ds-speaker-dot"></div>
-                                <div class="ds-speaker-dot"></div>
-                                <div class="ds-speaker-dot"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Monitor frame overlay (always visible, outside screen-clip) -->
+        <img src="crt-tv.png" class="monitor-frame-img" alt="" onerror="this.style.display='none'">
 
-                <!-- Hinge -->
-                <div class="ds-hinge">
-                    <div class="ds-hinge-left"></div>
-                    <div class="ds-hinge-gap"></div>
-                    <div class="ds-hinge-right"></div>
-                </div>
+    </section>
 
-                <!-- Bottom half: base -->
-                <div class="ds-base">
-                    <div class="ds-base-inner">
-                        <!-- Left controls -->
-                        <div class="ds-controls-left">
-                            <div class="ds-circle-pad"></div>
-                            <div class="ds-dpad">
-                                <div class="ds-dpad-h"></div>
-                                <div class="ds-dpad-v"></div>
-                                <div class="ds-dpad-center"></div>
-                            </div>
-                        </div>
+    </div><!-- end slide-track -->
+    </div><!-- end slide-container -->
 
-                        <!-- Bottom screen -->
-                        <div class="ds-bottom-bezel">
-                            <div class="ds-bottom-screen">
-                                <p class="ds-screen-title">HOW TO PLAY</p>
-                                <p>&#9654; Arrow keys to move</p>
-                                <p>&#9654; Reach the exit flag</p>
-                                <p>&#9654; Avoid the walls</p>
-                                <p>&#9654; Beat KC's high score!</p>
-                                <div class="ds-game-controls">
-                                    <button class="ds-game-btn ds-start-btn" onclick="dsStartGame()">&#9654; START</button>
-                                    <button class="ds-game-btn ds-stop-btn" onclick="dsStopGame()">&#9632; STOP</button>
-                                </div>
-                            </div>
-                        </div>
+    <footer style="display:none">
+        <p>Designed by KC • Contact: kc.galapati@gmail.com</p>
+    </footer>
 
-                        <!-- Right controls -->
-                        <div class="ds-controls-right">
-                            <div class="ds-face-buttons">
-                                <div class="ds-btn ds-btn-x">X</div>
-                                <div class="ds-btn ds-btn-y">Y</div>
-                                <div class="ds-btn ds-btn-a">A</div>
-                                <div class="ds-btn ds-btn-b">B</div>
-                            </div>
-                            <div class="ds-menu-buttons">
-                                <div class="ds-small-btn">START</div>
-                                <div class="ds-small-btn">SELECT</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ds-home-row">
-                        <div class="ds-home-btn">⌂</div>
-                    </div>
-                </div>
-
-            </div>
-
-            <img src="https://win98icons.alexmeub.com/icons/png/game_mine_1-0.png" class="scroll-icon right-icon pixelated-img" alt="Game">
-        </section>
-
-        <footer>
-            <p>Designed by KC • Contact: kc.galapati@gmail.com</p>
-        </footer>
-    </main>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

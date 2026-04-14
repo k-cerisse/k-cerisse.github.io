@@ -388,46 +388,60 @@ let csvText = null;
 // The Python analysis code — adapted from your Kaggle notebook to run in-browser.
 // Uses io.StringIO instead of a file path, and returns a base64 PNG instead of saving.
 const PYTHON_CODE = `
+# --- Imports ---
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('Agg')   # Use non-interactive backend (required for browser/Pyodide)
 import matplotlib.pyplot as plt
 import io, base64
 
+# --- Load data ---
+# csv_data is passed in from JavaScript as a string.
+# header=0 means the first row is the column header (TIME, VO2, FECO2, etc.)
+# skiprows=[1,2,3] skips the sub-header, units, and separator rows below the header
 df = pd.read_csv(io.StringIO(csv_data), header=0, skiprows=[1, 2, 3])
 
-x1 = df['TIME']
-x2 = df['VO2']
-y1 = df['VO2']
-y2 = df['FECO2']
-y3 = df['VCO2']
+# --- Extract variables ---
+x1 = df['TIME']   # Time in minutes (x-axis for Plot 1)
+x2 = df['VO2']    # Oxygen consumption in L/min (x-axis for Plots 2 & 3)
+y1 = df['VO2']    # VO2 over time (L/min)
+y2 = df['FECO2']  # Fraction of expired CO2 (%) — reflects gas exchange efficiency
+y3 = df['VCO2']   # CO2 production (L/min) — used to calculate respiratory exchange ratio
 
+# --- Create figure with 3 stacked subplots ---
 fig, ax = plt.subplots(3, 1, sharex=False, figsize=(8, 10))
 fig.subplots_adjust(hspace=0.2)
 
+# Plot 1: VO2 over time — shows how oxygen consumption changes during the exercise protocol
 ax[0].plot(x1, y1, 'o', label=r'$\\dot{V}O_2$', c='r')
 ax[0].spines[['top', 'right']].set_visible(False)
 ax[0].set(ylabel='L/min', xlabel='Time (min)')
 
+# Plot 2: FECO2 vs VO2 — as VO2 increases, expired CO2 fraction rises with metabolic demand
 ax[1].plot(x2, y2, 'o', label=r'$FECO_2$', c='b')
 ax[1].spines[['top', 'right', 'bottom']].set_visible(False)
 ax[1].tick_params(bottom=False, labelbottom=False)
 ax[1].set(ylabel='%')
 
+# Plot 3: VCO2 vs VO2 — the slope of this relationship approximates the respiratory exchange ratio (RER)
 ax[2].plot(x2, y3, 'o', label=r'$\\dot{V}CO_2$', c='g')
 ax[2].spines[['top', 'right']].set_visible(False)
 ax[2].set(ylabel='L/min', xlabel=r'$\\dot{V}O_2$ L/min')
 
+# Add legend to each plot
 for a in ax:
     a.legend()
 
+# --- Export figure as base64 PNG ---
+# Pyodide cannot save files to disk, so the chart is encoded as a base64 string
+# and returned to JavaScript, which renders it as an <img> element.
 buf = io.BytesIO()
 fig.savefig(buf, format='png', dpi=150, bbox_inches='tight')
 buf.seek(0)
 result = base64.b64encode(buf.read()).decode('utf-8')
 plt.close(fig)
-result
+result   # returned to JavaScript
 `;
 
 function setPyStatus(msg) {

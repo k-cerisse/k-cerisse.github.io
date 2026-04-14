@@ -4,18 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiersten Cerisse - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Jacquard+12&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <main class="desktop-container">
+    <!-- INTRO HERO — outside desktop-container so it's full width -->
+    <section class="intro-hero">
+        <div class="intro-computer-wrap" id="intro-computer">
+            <img
+                src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=1400&q=80&fit=crop"
+                class="intro-computer-img"
+                alt="Retro computer setup">
+        </div>
 
-        <header class="desktop-header">
-            <h1 class="pixel-text">k-cerisse.portfolio</h1>
-        </header>
+        <div class="intro-rainbow">
+            <div class="rainbow-stripe" style="background:#f7c5c5;"></div>
+            <div class="rainbow-stripe" style="background:#f9afc0;"></div>
+            <div class="rainbow-stripe" style="background:#fbc4ab;"></div>
+            <div class="rainbow-stripe" style="background:#fde89a;"></div>
+            <div class="rainbow-stripe" style="background:#fff3b0;"></div>
+        </div>
+
+        <div class="intro-title-wrap" id="intro-title">
+            <p class="intro-eyebrow">a portfolio by</p>
+            <h1 class="intro-title">Kiersten Cerisse<br>Galapati.</h1>
+            <p class="intro-sub">Creative portfolio for KNES 381</p>
+        </div>
+
+        <div class="intro-scroll-hint">scroll ↓</div>
+    </section>
+
+    <!-- Pixel dither gradient: cream → Nokia green → teal desktop -->
+    <canvas id="pixel-gradient-canvas"></canvas>
+
+    <main class="desktop-container">
 
         <!-- Rubric Section 1/2: About Me (LEFT ALIGNED) -->
         <section id="about" class="rubric-section hidden-section">
+            <div class="kc-sprite-wrapper" style="left: 30px;">
+                <div class="speech-bubble">hi, i'm KC! 👋</div>
+                <img src="sprites/kc_sit.png" class="kc-sprite" alt="KC sitting">
+            </div>
             <div class="win95-window">
                 <div class="win95-titlebar">
                     <div class="win95-titletext">C:\My_Documents\About_Me.txt</div>
@@ -76,6 +108,10 @@
 
         <!-- Rubric Sections 3 & 4: Computation + Data Visualization (RIGHT ALIGNED, wider) -->
         <section id="computation" class="rubric-section rubric-section--wide hidden-section">
+            <div class="kc-sprite-wrapper" style="right: 40px;">
+                <div class="speech-bubble">upload your data! 📊</div>
+                <img src="sprites/kc_wave.png" class="kc-sprite" alt="KC waving">
+            </div>
             <div class="win95-window">
                 <div class="win95-titlebar">
                     <div class="win95-titletext">C:\Programs\VO2_Analyzer.exe</div>
@@ -118,65 +154,98 @@
 
         <!-- Rubric Section 5: Logic Component — Scratch Maze (LEFT ALIGNED) -->
         <section id="logic" class="rubric-section rubric-section--wide hidden-section">
+            <div class="kc-sprite-wrapper" style="left: 50px;">
+                <div class="speech-bubble">try to beat my score! 🎮</div>
+                <img src="sprites/kc_yay.png" class="kc-sprite" alt="KC cheering">
+            </div>
 
-            <div class="pc-setup">
+            <!-- Nintendo 3DS -->
+            <div class="ds-unit">
 
-                <!-- Monitor -->
-                <div class="pc-monitor-unit">
-                    <div class="pc-monitor-casing">
-                        <div class="pc-monitor-top-label">KC-TECH</div>
-                        <div class="pc-screen-bezel">
-                            <div class="pc-screen">
+                <!-- Top half: lid -->
+                <div class="ds-lid">
+                    <div class="ds-lid-inner">
+                        <div class="ds-top-bar">
+                            <div class="ds-camera"></div>
+                        </div>
+                        <div class="ds-top-bezel">
+                            <div class="ds-top-screen">
                                 <iframe
                                     src="KNES381_Scratch_Maze_Demo.html"
-                                    width="380"
-                                    height="285"
                                     scrolling="no"
                                     title="Maze Game">
                                 </iframe>
                             </div>
                         </div>
-                        <div class="pc-monitor-chin">
-                            <div class="pc-power-led"></div>
-                            <span class="pc-model-tag">VGA-480</span>
-                            <div class="pc-dial-row">
-                                <div class="pc-dial"></div>
-                                <div class="pc-dial"></div>
-                                <div class="pc-dial"></div>
+                        <div class="ds-speakers">
+                            <div class="ds-speaker-left">
+                                <div class="ds-speaker-dot"></div>
+                                <div class="ds-speaker-dot"></div>
+                                <div class="ds-speaker-dot"></div>
+                                <div class="ds-speaker-dot"></div>
+                            </div>
+                            <div class="ds-speaker-right">
+                                <div class="ds-speaker-dot"></div>
+                                <div class="ds-speaker-dot"></div>
+                                <div class="ds-speaker-dot"></div>
+                                <div class="ds-speaker-dot"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="pc-neck"></div>
-                    <div class="pc-foot"></div>
                 </div>
 
-                <!-- Desktop tower -->
-                <div class="pc-tower">
-                    <div class="pc-tower-top-stripe"></div>
-                    <div class="pc-tower-label">KC-TECH 2000</div>
-                    <div class="pc-floppy-bay">
-                        <div class="pc-floppy-slot"></div>
-                        <div class="pc-floppy-btn"></div>
-                    </div>
-                    <div class="pc-cd-bay">
-                        <div class="pc-cd-slot"></div>
-                    </div>
-                    <div class="pc-tower-buttons">
-                        <div class="pc-power-btn">
-                            <div class="pc-power-led-tower"></div>
+                <!-- Hinge -->
+                <div class="ds-hinge">
+                    <div class="ds-hinge-left"></div>
+                    <div class="ds-hinge-gap"></div>
+                    <div class="ds-hinge-right"></div>
+                </div>
+
+                <!-- Bottom half: base -->
+                <div class="ds-base">
+                    <div class="ds-base-inner">
+                        <!-- Left controls -->
+                        <div class="ds-controls-left">
+                            <div class="ds-circle-pad"></div>
+                            <div class="ds-dpad">
+                                <div class="ds-dpad-h"></div>
+                                <div class="ds-dpad-v"></div>
+                                <div class="ds-dpad-center"></div>
+                            </div>
                         </div>
-                        <div class="pc-reset-btn"></div>
-                    </div>
-                    <div class="pc-hdd-led-row">
-                        <span class="pc-led-label">HDD</span>
-                        <div class="pc-hdd-led"></div>
-                    </div>
-                </div>
 
-                <!-- Caption -->
-                <div class="pc-caption">
-                    <p>&#9654; Arrow keys to navigate</p>
-                    <p>Add your game context here.</p>
+                        <!-- Bottom screen -->
+                        <div class="ds-bottom-bezel">
+                            <div class="ds-bottom-screen">
+                                <p class="ds-screen-title">HOW TO PLAY</p>
+                                <p>&#9654; Arrow keys to move</p>
+                                <p>&#9654; Reach the exit flag</p>
+                                <p>&#9654; Avoid the walls</p>
+                                <p>&#9654; Beat KC's high score!</p>
+                                <div class="ds-game-controls">
+                                    <button class="ds-game-btn ds-start-btn" onclick="dsStartGame()">&#9654; START</button>
+                                    <button class="ds-game-btn ds-stop-btn" onclick="dsStopGame()">&#9632; STOP</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right controls -->
+                        <div class="ds-controls-right">
+                            <div class="ds-face-buttons">
+                                <div class="ds-btn ds-btn-x">X</div>
+                                <div class="ds-btn ds-btn-y">Y</div>
+                                <div class="ds-btn ds-btn-a">A</div>
+                                <div class="ds-btn ds-btn-b">B</div>
+                            </div>
+                            <div class="ds-menu-buttons">
+                                <div class="ds-small-btn">START</div>
+                                <div class="ds-small-btn">SELECT</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ds-home-row">
+                        <div class="ds-home-btn">⌂</div>
+                    </div>
                 </div>
 
             </div>

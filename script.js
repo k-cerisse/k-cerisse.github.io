@@ -1,4 +1,67 @@
 /* =============================================
+   0. PIXEL DITHER GRADIENT (cream → Nokia green)
+   ============================================= */
+
+function renderDitherGradient() {
+    const canvas = document.getElementById('pixel-gradient-canvas');
+    if (!canvas) return;
+
+    // Bayer 8×8 ordered dithering matrix (values 0–63)
+    const BAYER = [
+        [ 0, 32,  8, 40,  2, 34, 10, 42],
+        [48, 16, 56, 24, 50, 18, 58, 26],
+        [12, 44,  4, 36, 14, 46,  6, 38],
+        [60, 28, 52, 20, 62, 30, 54, 22],
+        [ 3, 35, 11, 43,  1, 33,  9, 41],
+        [51, 19, 59, 27, 49, 17, 57, 25],
+        [15, 47,  7, 39, 13, 45,  5, 37],
+        [63, 31, 55, 23, 61, 29, 53, 21]
+    ];
+
+    const PIXEL = 6;          // screen pixels per "pixel unit"
+    const ROWS  = 36;         // pixel-unit rows tall
+    const colorA = [240, 235, 224];   // cream  #f0ebe0
+    const colorB = [ 58, 125,  38];   // Nokia green #3a7d26
+
+    function draw() {
+        const cols = Math.ceil(window.innerWidth / PIXEL);
+        canvas.width  = cols;
+        canvas.height = ROWS;
+        canvas.style.height = (ROWS * PIXEL) + 'px';
+
+        const ctx = canvas.getContext('2d');
+        for (let r = 0; r < ROWS; r++) {
+            // t: 0 = full cream, 1 = full Nokia green
+            const t = r / (ROWS - 1);
+            for (let c = 0; c < cols; c++) {
+                const threshold = BAYER[r % 8][c % 8] / 64;
+                const col = t > threshold ? colorB : colorA;
+                ctx.fillStyle = `rgb(${col[0]},${col[1]},${col[2]})`;
+                ctx.fillRect(c, r, 1, 1);
+            }
+        }
+    }
+
+    draw();
+    window.addEventListener('resize', draw);
+}
+
+document.addEventListener('DOMContentLoaded', renderDitherGradient);
+
+/* =============================================
+   1. INTRO PARALLAX
+   ============================================= */
+
+const introComputer = document.getElementById('intro-computer');
+const introTitle    = document.getElementById('intro-title');
+
+window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (introComputer) introComputer.style.transform = `translateY(${y * 0.55}px)`;
+    if (introTitle)    introTitle.style.transform    = `translateY(${y * 0.3}px)`;
+}, { passive: true });
+
+/* =============================================
    1. INTERACTIVE ICONS LOGIC (Click to Reveal)
    ============================================= */
 
@@ -7,6 +70,26 @@ function toggleReveal(targetId) {
     if (targetContent) {
         targetContent.classList.toggle('hidden');
     }
+}
+
+/* =============================================
+   DS GAME CONTROLS (Start / Stop)
+   ============================================= */
+
+const DS_GAME_SRC = 'KNES381_Scratch_Maze_Demo.html';
+
+function dsStartGame() {
+    const iframe = document.querySelector('.ds-top-screen iframe');
+    if (!iframe) return;
+    // If already running, do nothing
+    if (iframe.src && !iframe.src.endsWith('about:blank') && iframe.src !== '') return;
+    iframe.src = DS_GAME_SRC;
+}
+
+function dsStopGame() {
+    const iframe = document.querySelector('.ds-top-screen iframe');
+    if (!iframe) return;
+    iframe.src = 'about:blank';
 }
 
 
@@ -33,6 +116,8 @@ function showSection(section) {
     section.classList.add('visible-section');
     const icon = section.querySelector('.scroll-icon');
     if (icon) icon.classList.add('show-icon');
+    const sprite = section.querySelector('.kc-sprite-wrapper');
+    if (sprite) sprite.classList.add('kc-visible');
 }
 
 document.addEventListener('DOMContentLoaded', () => {

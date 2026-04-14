@@ -18,10 +18,10 @@ function renderDitherGradient() {
         [63, 31, 55, 23, 61, 29, 53, 21]
     ];
 
-    const PIXEL = 6;          // screen pixels per "pixel unit"
-    const ROWS  = 36;         // pixel-unit rows tall
+    const PIXEL = 12;         // screen pixels per "pixel unit" (larger = chunkier)
+    const ROWS  = 28;         // pixel-unit rows tall
     const colorA = [240, 235, 224];   // cream  #f0ebe0
-    const colorB = [ 58, 125,  38];   // Nokia green #3a7d26
+    const colorB = [101, 122,  81];   // sage green #657A51
 
     function draw() {
         const cols = Math.ceil(window.innerWidth / PIXEL);
@@ -81,15 +81,15 @@ const DS_GAME_SRC = 'KNES381_Scratch_Maze_Demo.html';
 function dsStartGame() {
     const iframe = document.querySelector('.ds-top-screen iframe');
     if (!iframe) return;
-    // If already running, do nothing
-    if (iframe.src && !iframe.src.endsWith('about:blank') && iframe.src !== '') return;
     iframe.src = DS_GAME_SRC;
 }
 
 function dsStopGame() {
     const iframe = document.querySelector('.ds-top-screen iframe');
     if (!iframe) return;
+    // Navigate iframe away to kill all game audio + JS
     iframe.src = 'about:blank';
+    try { iframe.contentWindow.location.replace('about:blank'); } catch(e) {}
 }
 
 

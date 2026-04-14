@@ -1,5 +1,11 @@
 /* --- CORE GLOBALS --- */
-/* Fonts loaded via <link> in HTML head */
+@font-face {
+    font-family: 'Qager';
+    src: url('fonts/Qager-zrlmw.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+/* Google fonts loaded via <link> in HTML head */
 
 :root {
     --win-teal: #657A51;
@@ -27,70 +33,53 @@
     scroll-snap-align: start;
 }
 
-/* Computer photo — parallax layer (moves faster) */
+/* PC image — centered, large, parallax layer */
 .intro-computer-wrap {
     position: absolute;
-    top: -10%;
-    left: 0;
-    width: 100%;
-    height: 75%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-width: 700px;
     will-change: transform;
+    z-index: 1;
 }
 
 .intro-computer-img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    filter: sepia(15%) contrast(1.05);
-}
-
-/* Rainbow stripe band */
-.intro-rainbow {
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 100%;
-    top: 58%;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    z-index: 4;
-    opacity: 0.82;
+    height: auto;
+    display: block;
+    /* drop-shadow so the white PNG bg blends into cream */
+    filter: drop-shadow(0 20px 60px rgba(0,0,0,0.18));
     mix-blend-mode: multiply;
 }
 
-.rainbow-stripe {
-    height: 14px;
-    width: 100%;
-}
-
-/* Title block — parallax layer (moves slower) */
+/* Title block — big overlay over the PC image */
 .intro-title-wrap {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 3;
-    padding: 30px 60px 50px 60px;
+    padding: 20px 5vw 40px 5vw;
     will-change: transform;
-    background: linear-gradient(to top, #f0ebe0 60%, transparent);
+    background: linear-gradient(to top, var(--cream) 55%, transparent);
 }
 
 .intro-eyebrow {
     font-family: 'VT323', monospace;
-    font-size: 1rem;
-    letter-spacing: 4px;
+    font-size: 1.1rem;
+    letter-spacing: 5px;
     text-transform: uppercase;
     color: #5a4e3a;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .intro-title {
-    font-family: 'Jacquard 12', monospace;
-    font-size: clamp(4rem, 11vw, 11rem);
+    font-family: 'Qager', monospace;
+    font-size: clamp(5rem, 14vw, 14rem);
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 0.95;
     color: #1a1208;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: unset;
@@ -212,10 +201,10 @@ a, button, .interactive-item {
     min-width: 0;
 }
 
-/* Section z-index stacking */
-#about      { z-index: 10; }
-#computation{ z-index: 9; }
-#logic      { z-index: 7; }
+/* Alternating section background colors */
+#about       { background-color: var(--cream); z-index: 10; }
+#computation { background-color: var(--win-teal); z-index: 9; }
+#logic       { background-color: var(--cream); z-index: 7; }
 
 /* --- OVERLAPPING HUD ASSETS --- */
 .floating-asset {

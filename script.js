@@ -299,8 +299,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.addEventListener('mousemove', e => {
             if (!dragging) return;
-            frame.style.left = (ox + e.clientX - mx) + 'px';
-            frame.style.top  = (oy + e.clientY - my) + 'px';
+            const parent = frame.parentElement;
+            const clipW  = parent.offsetWidth;
+            const clipH  = parent.offsetHeight;
+            const frameW = frame.offsetWidth;
+            const frameH = frame.offsetHeight;
+
+            const newLeft = Math.max(0, Math.min(ox + e.clientX - mx, clipW - frameW));
+            const newTop  = Math.max(0, Math.min(oy + e.clientY - my, clipH - frameH));
+
+            frame.style.left = newLeft + 'px';
+            frame.style.top  = newTop  + 'px';
         });
 
         window.addEventListener('mouseup', () => { dragging = false; });

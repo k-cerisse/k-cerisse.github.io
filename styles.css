@@ -1324,15 +1324,17 @@ footer {
     align-items: center;
     gap: 4px;
     flex-shrink: 0;
+    width: 130px; /* locked — prevents column resizing when bubble text changes */
 }
 
 /* Speech bubble inside the window (overrides floating variant) */
 .about-sprite-col .speech-bubble {
+    width: 120px;  /* fixed width so text wraps inside, not outside */
     white-space: normal;
-    max-width: 120px;
     font-size: 1rem;
     text-align: center;
     margin-bottom: 0;
+    box-sizing: border-box;
 }
 
 /* Fixed-size box so the window never shifts when the sprite swaps */

@@ -1338,12 +1338,17 @@ footer {
 
 /* Speech bubble inside the window (overrides floating variant) */
 .about-sprite-col .speech-bubble {
-    width: 120px;  /* fixed width so text wraps inside, not outside */
+    width: 120px;
+    height: 52px;       /* fixed height — no shifting when text wraps */
     white-space: normal;
     font-size: 1rem;
     text-align: center;
     margin-bottom: 0;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 /* Fixed-size box so the window never shifts when the sprite swaps */

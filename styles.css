@@ -139,7 +139,7 @@
 
 .intro-title {
     font-family: 'Qager', monospace;
-    font-size: clamp(5rem, 14vw, 14rem);
+    font-size: clamp(3.5rem, 10vw, 10rem);
     font-weight: 400;
     line-height: 0.95;
     color: #1a1208;

@@ -335,7 +335,6 @@ a, button, .interactive-item {
     position: absolute;
     z-index: 10;
     min-width: 260px;
-    max-width: 92%;
     background-color: var(--win-surface);
     border: 2px solid;
     border-color: var(--win-highlight) var(--win-shadow) var(--win-shadow) var(--win-highlight);

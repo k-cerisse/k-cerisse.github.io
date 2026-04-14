@@ -190,7 +190,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (clip) clip.style.filter = 'url(#barrel)';
     }
 
-    injectBarrelFilter();
+    // Barrel distortion intentionally not applied to screen-clip —
+    // CSS filters on a parent shift the browser's hit-test coordinates,
+    // causing buttons to become unclickable after windows are dragged.
+    // The CRT look is achieved via border-radius + .crt-effect overlay instead.
 
     // CRT boot sequence: scanline → BIOS text → desktop reveal
     function runCrtBoot() {
@@ -322,6 +325,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let wheelAccum = 0;
     const WHEEL_THRESHOLD = 60;
     window.addEventListener('wheel', (e) => {
+        // If the user is scrolling inside a window body, let it scroll naturally
+        const windowBody = e.target.closest('.win95-body');
+        if (windowBody) {
+            const atTop    = windowBody.scrollTop === 0;
+            const atBottom = windowBody.scrollTop + windowBody.clientHeight >= windowBody.scrollHeight - 1;
+            // Only hand off to slide nav if already at the scroll limit
+            if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) return;
+        }
         e.preventDefault();
         wheelAccum += e.deltaY;
         if (Math.abs(wheelAccum) >= WHEEL_THRESHOLD) {

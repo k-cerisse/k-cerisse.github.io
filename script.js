@@ -494,7 +494,7 @@ async function runAnalysis() {
    ============================================= */
 
 (function initSpriteAnimation() {
-    const sprites = ['sprites/kc_happy.png', 'sprites/kc_blush.png'];
+    const sprites = ['sprites/kc_stand.png', 'sprites/kc_happy.png'];
     const messages = ['Nice to meet you!', 'Welcome to my portfolio!', "I'm KC!", 'Check out my work!'];
     let spriteIdx = 0;
     let msgIdx = 0;

@@ -770,6 +770,51 @@ a, button, .interactive-item {
     color: var(--win-blue);
 }
 
+/* --- VO2 INFO BOXES --- */
+.vo2-info-box {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.vo2-info-box p {
+    margin-bottom: 4px;
+}
+
+.vo2-list {
+    margin: 6px 0 4px 18px;
+    padding: 0;
+}
+
+.vo2-list li {
+    margin-bottom: 2px;
+}
+
+.vo2-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 6px 0;
+}
+
+.vo2-col-tag {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    background: var(--win-blue);
+    color: white;
+    padding: 1px 8px;
+    letter-spacing: 1px;
+}
+
+.vo2-download-btn {
+    display: inline-block;
+    margin-top: 8px;
+    text-decoration: none;
+    color: inherit;
+    font-size: 1rem;
+    padding: 4px 14px;
+}
+
 /* --- RUN BUTTON --- */
 .win95-run-btn {
     background: var(--win-surface);

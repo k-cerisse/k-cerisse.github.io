@@ -175,7 +175,32 @@
                 </div>
                 <div class="win95-body app-body">
                     <h2>VO&#x2082; Analysis Tool</h2>
-                    <p>Upload a subject CSV file to generate metabolic plots.</p>
+
+                    <fieldset class="win-fieldset vo2-info-box">
+                        <legend>About this tool</legend>
+                        <p>This tool runs a Python script directly in the browser to analyse metabolic data collected during exercise testing. Upload a CSV exported from a metabolic cart and click <strong>Run Analysis</strong> to generate three plots:</p>
+                        <ul class="vo2-list">
+                            <li><strong>Plot 1</strong> — VO&#x2082; over time (oxygen consumption, L/min)</li>
+                            <li><strong>Plot 2</strong> — FECO&#x2082; vs VO&#x2082; (fraction of expired CO&#x2082;)</li>
+                            <li><strong>Plot 3</strong> — VCO&#x2082; vs VO&#x2082; (CO&#x2082; production vs O&#x2082; consumption)</li>
+                        </ul>
+                    </fieldset>
+
+                    <fieldset class="win-fieldset vo2-info-box">
+                        <legend>CSV format</legend>
+                        <p>The file must contain the following columns with these exact names:</p>
+                        <div class="vo2-columns">
+                            <span class="vo2-col-tag">TIME</span>
+                            <span class="vo2-col-tag">VO2</span>
+                            <span class="vo2-col-tag">FECO2</span>
+                            <span class="vo2-col-tag">VCO2</span>
+                        </div>
+                        <p style="margin-top:8px;">The first row must be the column header. Rows 2–4 may contain sub-headers, units, or separators — these are automatically skipped.</p>
+                        <a class="win95-run-btn vo2-download-btn" href="sample_vo2_data.csv" download>
+                            &#11015; Download sample CSV
+                        </a>
+                    </fieldset>
+
                     <div class="analysis-layout">
                         <div class="analysis-left">
                             <div class="upload-zone" id="upload-zone" onclick="document.getElementById('csv-input').click()">

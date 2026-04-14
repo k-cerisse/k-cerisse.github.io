@@ -233,6 +233,17 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 openWindow('app-about');
                 openWindow('app-music');
+                // Snap music window to bottom-right above taskbar
+                requestAnimationFrame(() => {
+                    const musicWin = document.getElementById('app-music');
+                    const clip     = document.getElementById('screen-clip');
+                    if (musicWin && clip) {
+                        const margin   = 16;
+                        const taskbarH = 36;
+                        musicWin.style.left = (clip.offsetWidth  - musicWin.offsetWidth  - margin) + 'px';
+                        musicWin.style.top  = (clip.offsetHeight - musicWin.offsetHeight - taskbarH - margin) + 'px';
+                    }
+                });
             }, 500);
         }, 3400);
     }

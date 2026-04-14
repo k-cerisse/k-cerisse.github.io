@@ -534,21 +534,53 @@ async function runAnalysis() {
    ============================================= */
 
 (function loadAboutMe() {
-    // cache: 'no-store' ensures GitHub Pages always serves the latest version
+    // Extracts the content under a ## Heading from the markdown string
+    function extractSection(md, heading) {
+        const lines = md.split('\n');
+        let inSection = false;
+        const sectionLines = [];
+        for (const line of lines) {
+            if (line.match(new RegExp(`^##\\s+${heading}`, 'i'))) {
+                inSection = true;
+                continue;
+            }
+            if (inSection && line.match(/^##\s/)) break; // next section reached
+            if (inSection) sectionLines.push(line);
+        }
+        return sectionLines.length
+            ? window.marked.parse(sectionLines.join('\n').trim())
+            : '<p>—</p>';
+    }
+
+    // Extracts everything before the first ## heading (the intro paragraph)
+    function extractIntro(md) {
+        const lines = md.split('\n');
+        const introLines = [];
+        for (const line of lines) {
+            if (line.match(/^##\s/)) break;
+            if (!line.match(/^#\s/)) introLines.push(line); // skip the h1 title
+        }
+        return window.marked.parse(introLines.join('\n').trim());
+    }
+
     fetch('About_Me.md', { cache: 'no-store' })
         .then(r => {
             if (!r.ok) throw new Error('Could not load About_Me.md');
             return r.text();
         })
         .then(md => {
-            const el = document.getElementById('about-md-content');
-            if (el && window.marked) {
-                el.innerHTML = window.marked.parse(md);
-            }
+            const set = (id, html) => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = html;
+            };
+            set('about-intro',       extractIntro(md));
+            set('about-edu-content', extractSection(md, 'Education'));
+            set('about-int-content', extractSection(md, 'Interests'));
+            set('about-spare-content', extractSection(md, 'Spare Time'));
         })
         .catch(() => {
-            const el = document.getElementById('about-md-content');
-            if (el) el.innerHTML = '<p>Could not load content. Please check About_Me.md.</p>';
+            const el = document.getElementById('about-intro');
+            if (el) el.innerHTML = '<p>Could not load About_Me.md</p>';
         });
 })();
 

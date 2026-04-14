@@ -123,10 +123,46 @@
                                 <img src="sprites/kc_stand.png" id="kc-win-sprite" class="kc-win-sprite" alt="KC sprite">
                             </div>
                         </div>
-                        <!-- Content rendered from About_Me.md -->
-                        <div class="about-md-content" id="about-md-content">
+                        <!-- Intro text from About_Me.md -->
+                        <div class="intro-block" id="about-intro">
                             <p style="color:var(--win-shadow);">Loading...</p>
                         </div>
+                    </div>
+
+                    <!-- Folder grid — structure hardcoded, content from markdown -->
+                    <div class="interactive-folder-grid">
+                        <div class="interactive-item" onclick="toggleReveal('reveal-edu')">
+                            <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="win-icon pixelated-img" alt="Folder">
+                            <span class="icon-label">Education</span>
+                        </div>
+                        <div class="interactive-item" onclick="toggleReveal('reveal-int')">
+                            <img src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd-3.png" class="win-icon pixelated-img" alt="CD">
+                            <span class="icon-label">Interests</span>
+                        </div>
+                        <div class="interactive-item" onclick="toggleReveal('reveal-spare')">
+                            <img src="https://win98icons.alexmeub.com/icons/png/briefcase-2.png" class="win-icon pixelated-img" alt="Briefcase">
+                            <span class="icon-label">Spare Time</span>
+                        </div>
+                    </div>
+
+                    <!-- Reveal panels — content injected from About_Me.md -->
+                    <div id="reveal-edu" class="reveal-content hidden">
+                        <fieldset class="win-fieldset">
+                            <legend>Education.exe</legend>
+                            <div id="about-edu-content"><p style="color:var(--win-shadow);">Loading...</p></div>
+                        </fieldset>
+                    </div>
+                    <div id="reveal-int" class="reveal-content hidden">
+                        <fieldset class="win-fieldset">
+                            <legend>Interests.exe</legend>
+                            <div id="about-int-content"><p style="color:var(--win-shadow);">Loading...</p></div>
+                        </fieldset>
+                    </div>
+                    <div id="reveal-spare" class="reveal-content hidden">
+                        <fieldset class="win-fieldset">
+                            <legend>Spare_Time.exe</legend>
+                            <div id="about-spare-content"><p style="color:var(--win-shadow);">Loading...</p></div>
+                        </fieldset>
                     </div>
                 </div>
             </div>

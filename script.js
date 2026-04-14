@@ -120,16 +120,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let animating = false;
     const DURATION = 750;
 
-    // Expose so the taskbar Start button can navigate back to the hero
-    window.goToHero = function() { goTo(1); };
+    // Start button bypasses the desktop lock via the force flag
+    window.goToHero = function() { goTo(1, true); };
 
-    function goTo(index) {
+    function goTo(index, force = false) {
         if (animating) return;
         if (index < 0 || index > allSections.length - 1) return;
         if (index === current) return;
-        // Desktop is a one-way destination — scroll is locked.
-        // The only way back is the Start button, which calls goToHero() → goTo(1).
-        if (current === allSections.length - 1 && index < current && index !== 1) return;
+        // Desktop is a one-way destination — all backward navigation is blocked
+        // unless explicitly forced (Start button only)
+        if (!force && current === allSections.length - 1 && index < current) return;
         animating = true;
 
         if (index === 0) {

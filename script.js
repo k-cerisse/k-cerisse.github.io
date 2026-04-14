@@ -530,7 +530,30 @@ async function runAnalysis() {
 }
 
 /* =============================================
-   4. LIGHTBOX (project photo viewer)
+   4. ABOUT ME — fetch and render About_Me.md
+   ============================================= */
+
+(function loadAboutMe() {
+    // cache: 'no-store' ensures GitHub Pages always serves the latest version
+    fetch('About_Me.md', { cache: 'no-store' })
+        .then(r => {
+            if (!r.ok) throw new Error('Could not load About_Me.md');
+            return r.text();
+        })
+        .then(md => {
+            const el = document.getElementById('about-md-content');
+            if (el && window.marked) {
+                el.innerHTML = window.marked.parse(md);
+            }
+        })
+        .catch(() => {
+            const el = document.getElementById('about-md-content');
+            if (el) el.innerHTML = '<p>Could not load content. Please check About_Me.md.</p>';
+        });
+})();
+
+/* =============================================
+   5. LIGHTBOX (project photo viewer)
    ============================================= */
 
 window.openLightbox = function(src) {

@@ -7,7 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Jacquard+12&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=5">
+    <link rel="stylesheet" href="styles.css?v=6">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
@@ -114,54 +115,18 @@
                     </div>
                 </div>
                 <div class="win95-body app-body">
-                    <!-- Sprite + intro side by side -->
                     <div class="about-sprite-row">
+                        <!-- Sprite column stays hardcoded -->
                         <div class="about-sprite-col">
                             <div class="speech-bubble" id="kc-speech-bubble">Nice to meet you!</div>
                             <div class="kc-sprite-box">
                                 <img src="sprites/kc_stand.png" id="kc-win-sprite" class="kc-win-sprite" alt="KC sprite">
                             </div>
                         </div>
-                        <div class="intro-block" style="flex:1;">
-                            <h1>Hello! My name is Kiersten Cerisse Galapati.</h1>
-                            <p>My nickname is KC. I am a student interested in health and medicine.</p>
-                            <p><i>>> Explore the folders below:</i></p>
+                        <!-- Content rendered from About_Me.md -->
+                        <div class="about-md-content" id="about-md-content">
+                            <p style="color:var(--win-shadow);">Loading...</p>
                         </div>
-                    </div>
-                    <div class="interactive-folder-grid">
-                        <div class="interactive-item" onclick="toggleReveal('reveal-edu')">
-                            <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="win-icon pixelated-img" alt="Folder">
-                            <span class="icon-label">Education</span>
-                        </div>
-                        <div class="interactive-item" onclick="toggleReveal('reveal-proj')">
-                            <img src="https://win98icons.alexmeub.com/icons/png/briefcase-2.png" class="win-icon pixelated-img" alt="Briefcase">
-                            <span class="icon-label">Projects</span>
-                        </div>
-                        <div class="interactive-item" onclick="toggleReveal('reveal-int')">
-                            <img src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd-3.png" class="win-icon pixelated-img" alt="CD">
-                            <span class="icon-label">Interests</span>
-                        </div>
-                    </div>
-                    <div id="reveal-edu" class="reveal-content hidden">
-                        <fieldset class="win-fieldset">
-                            <legend>Education.exe</legend>
-                            <p>Program: Exercise and Health Physiology</p>
-                            <p>Institution: University of Calgary (2022 – 2026)</p>
-                            <p>Courses: KNES 381, KNES 259/260</p>
-                        </fieldset>
-                    </div>
-                    <div id="reveal-proj" class="reveal-content hidden">
-                        <fieldset class="win-fieldset">
-                            <legend>Projects.exe</legend>
-                            <p>Managing Social Media For Womens Heart Health Event (Jan 2026).</p>
-                            <p>Youth Camp Lead (Apr 2023).</p>
-                        </fieldset>
-                    </div>
-                    <div id="reveal-int" class="reveal-content hidden">
-                        <fieldset class="win-fieldset">
-                            <legend>Interests.exe</legend>
-                            <p>Music, videography, japanese cars, data analysis, crocheting.</p>
-                        </fieldset>
                     </div>
                 </div>
             </div>
@@ -386,6 +351,6 @@
         <p>Designed by KC • Contact: kc.galapati@gmail.com</p>
     </footer>
 
-<script src="script.js?v=5"></script>
+<script src="script.js?v=6"></script>
 </body>
 </html>

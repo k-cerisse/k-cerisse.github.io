@@ -1317,6 +1317,53 @@ footer {
 }
 
 /* =============================================
+   ABOUT ME — MARKDOWN CONTENT
+   ============================================= */
+
+.about-md-content {
+    flex: 1;
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-y: auto;
+}
+
+.about-md-content h1 {
+    font-size: 1.3rem;
+    color: var(--win-blue);
+    margin: 0 0 6px;
+}
+
+.about-md-content h2 {
+    font-size: 1.1rem;
+    color: var(--win-blue);
+    margin: 12px 0 4px;
+    border-bottom: 1px solid var(--win-shadow);
+    padding-bottom: 2px;
+}
+
+.about-md-content p {
+    margin-bottom: 6px;
+}
+
+.about-md-content ul,
+.about-md-content ol {
+    margin: 4px 0 8px 18px;
+    padding: 0;
+}
+
+.about-md-content li {
+    margin-bottom: 2px;
+}
+
+.about-md-content strong {
+    color: var(--win-blue);
+}
+
+.about-md-content a {
+    color: var(--win-blue);
+}
+
+/* =============================================
    PROJECTS WINDOW
    ============================================= */
 

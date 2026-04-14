@@ -516,7 +516,29 @@ async function runAnalysis() {
 }
 
 /* =============================================
-   4. SPRITE ANIMATION (kc_happy ↔ kc_blush)
+   4. LIGHTBOX (project photo viewer)
+   ============================================= */
+
+window.openLightbox = function(src) {
+    const lb  = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    if (!lb || !img) return;
+    img.src = src;
+    lb.classList.add('open');
+};
+
+window.closeLightbox = function() {
+    const lb = document.getElementById('lightbox');
+    if (lb) lb.classList.remove('open');
+};
+
+// Also close on Escape key
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+});
+
+/* =============================================
+   6. SPRITE ANIMATION (kc_stand ↔ kc_happy)
    ============================================= */
 
 (function initSpriteAnimation() {

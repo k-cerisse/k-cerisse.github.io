@@ -1317,6 +1317,95 @@ footer {
 }
 
 /* =============================================
+   PROJECTS WINDOW
+   ============================================= */
+
+.project-section {
+    margin-bottom: 12px;
+}
+
+.project-section p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+.project-photo-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.project-thumb-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: url('https://win98icons.alexmeub.com/cursors/pointer.cur'), pointer;
+}
+
+.project-thumb {
+    width: 160px;
+    height: 120px;
+    object-fit: cover;
+    border: 2px solid;
+    border-color: var(--win-shadow) var(--win-highlight) var(--win-highlight) var(--win-shadow);
+    display: block;
+    transition: outline 0.1s;
+}
+
+.project-thumb-wrap:hover .project-thumb {
+    outline: 2px solid var(--win-blue);
+}
+
+.project-thumb-label {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    color: var(--win-blue);
+}
+
+.project-link-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+    font-size: 1rem;
+}
+
+/* ── LIGHTBOX ───────────────────────────────── */
+.lightbox {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    cursor: url('https://win98icons.alexmeub.com/cursors/pointer.cur'), pointer;
+}
+
+.lightbox.open {
+    display: flex;
+}
+
+.lightbox-img {
+    max-width: 88%;
+    max-height: 88%;
+    object-fit: contain;
+    border: 3px solid var(--win-highlight);
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-family: 'VT323', monospace;
+    font-size: 2rem;
+    color: white;
+    line-height: 1;
+}
+
+/* =============================================
    ABOUT ME — IN-WINDOW SPRITE
    ============================================= */
 

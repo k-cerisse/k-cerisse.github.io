@@ -78,6 +78,10 @@
                         <img src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd-3.png" class="pixelated-img" alt="">
                         <span>Song Player</span>
                     </div>
+                    <div class="win95-desktop-icon" ondblclick="openWindow('app-projects')">
+                        <img src="https://win98icons.alexmeub.com/icons/png/briefcase-2.png" class="pixelated-img" alt="">
+                        <span>My Projects</span>
+                    </div>
                     <div class="win95-desktop-icon" ondblclick="openWindow('app-vo2')">
                         <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png" class="pixelated-img" alt="">
                         <span>VO2 Analyzer</span>
@@ -313,6 +317,51 @@
                         <span class="music-time" id="music-total-time">0:00</span>
                     </div>
                 </div>
+            </div>
+
+            <!-- APP WINDOW: My Projects -->
+            <div class="app-frame" id="app-projects" style="display:none; top:8%; left:12%;">
+                <div class="win95-titlebar app-titlebar">
+                    <img src="https://win98icons.alexmeub.com/icons/png/briefcase-2.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="">
+                    <span class="win95-titletext">C:\My_Documents\Projects\</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" onclick="minimizeWindow('app-projects')">_</button>
+                        <button class="win95-btn" onclick="maximizeWindow('app-projects')">□</button>
+                        <button class="win95-btn" onclick="closeWindow('app-projects')">X</button>
+                    </div>
+                </div>
+                <div class="win95-body app-body">
+
+                    <fieldset class="win-fieldset project-section">
+                        <legend>Youth Camp Lead — Apr 2023</legend>
+                        <p>Served as Youth Camp Lead, organizing and facilitating physical activities and health-education sessions for youth participants.</p>
+                        <div class="project-photo-grid">
+                            <div class="project-thumb-wrap" onclick="openLightbox('images/projects/group-camp-photo.JPG')">
+                                <img src="images/projects/group-camp-photo.JPG" class="project-thumb" alt="Camp group photo">
+                                <span class="project-thumb-label">Group Photo</span>
+                            </div>
+                            <div class="project-thumb-wrap" onclick="openLightbox('images/projects/share-photo.JPG')">
+                                <img src="images/projects/share-photo.JPG" class="project-thumb" alt="Share photo">
+                                <span class="project-thumb-label">Activity</span>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="win-fieldset project-section">
+                        <legend>Women's Heart Health — Social Media, Jan 2026</legend>
+                        <p>Managed social media for a Women's Heart Health awareness event, including editing and publishing a promotional reel on Instagram.</p>
+                        <a id="instagram-reel-btn" href="#" target="_blank" rel="noopener" class="win95-run-btn project-link-btn">
+                            &#9654; View Instagram Reel
+                        </a>
+                    </fieldset>
+
+                </div>
+            </div>
+
+            <!-- LIGHTBOX: full-size photo viewer -->
+            <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+                <img class="lightbox-img" id="lightbox-img" src="" alt="Full size photo">
+                <span class="lightbox-close">&#10005;</span>
             </div>
 
             <!-- CRT filter overlay: scanlines, vignette, glass shine (topmost, pointer-events:none) -->

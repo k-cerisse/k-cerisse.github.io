@@ -366,6 +366,15 @@ a, button, .interactive-item {
 .app-frame .win95-body.app-body--game {
     padding: 6px;
     overflow: hidden;
+    max-height: none; /* override 55vh — buttons must always be visible */
+}
+
+/* Wrapper sizes to the visually scaled iframe so layout stays correct */
+.game-iframe-wrap {
+    width: 576px;  /* 480 × 1.2 */
+    height: 432px; /* 360 × 1.2 */
+    overflow: hidden;
+    flex-shrink: 0;
 }
 .app-titlebar {
     cursor: move;

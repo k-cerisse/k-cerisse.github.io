@@ -1379,6 +1379,22 @@ footer {
     color: var(--win-blue);
 }
 
+/* Projects window text size */
+#projects-md-content {
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+#projects-md-content p {
+    margin-bottom: 10px;
+}
+
+#projects-md-content h3 {
+    font-size: 1.1rem;
+    margin: 12px 0 4px;
+    color: var(--win-blue);
+}
+
 /* Paragraph spacing inside reveal panel content divs (Education, Interests) */
 #about-edu-content p,
 #about-int-content p {

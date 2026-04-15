@@ -10,7 +10,7 @@
 
 # Hello! I'm Kiersten Cerisse Galapati.
 
-My nickname is KC short for my first 2 names. I'm in my 4th year of university and very excited to graduate. This class has taught me so much and I was excited for every class. All the components we went over this semester has really affirmed my interest and love for computers! This portfolio is my way of showing all the skills KNES 381 has taught me. I used GIMP to create PNG files for assets like the retro computer you saw as the background earlier, the sprite images, as well as for some of the clickable icons.
+My nickname is KC short for my first 2 names. I'm in my 4th year of university and very excited to graduate. This class has taught me so much and I was excited for every class. All the components we went over this semester has really affirmed my interest and love for computers! This portfolio is my way of showing all the skills KNES 381 has taught me. I used GIMP to create PNG files for assets like the retro computer you saw as the background earlier and the sprite images.
 
 ---
 

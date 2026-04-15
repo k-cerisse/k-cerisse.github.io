@@ -722,6 +722,14 @@ a, button, .interactive-item {
     text-align: center;
 }
 
+/* --- INTEREST VIDEO --- */
+.interest-video {
+    width: 100%;
+    display: block;
+    max-height: 320px;
+    background: #000;
+}
+
 /* --- REVEAL CONTENT --- */
 .reveal-content {
     margin-top: 15px;

@@ -371,8 +371,8 @@ a, button, .interactive-item {
 
 /* Wrapper sizes to the visually scaled iframe so layout stays correct */
 .game-iframe-wrap {
-    width: 576px;  /* 480 × 1.2 */
-    height: 432px; /* 360 × 1.2 */
+    width: 720px;  /* 480 × 1.5 */
+    height: 540px; /* 360 × 1.5 */
     overflow: hidden;
     flex-shrink: 0;
 }

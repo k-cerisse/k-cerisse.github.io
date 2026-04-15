@@ -722,7 +722,15 @@ a, button, .interactive-item {
     text-align: center;
 }
 
-/* --- INTEREST VIDEO --- */
+/* --- INTEREST MEDIA --- */
+.interest-img {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+    max-height: 320px;
+    object-fit: cover;
+}
+
 .interest-video {
     width: 100%;
     display: block;

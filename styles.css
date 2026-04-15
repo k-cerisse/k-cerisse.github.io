@@ -1523,34 +1523,34 @@ footer {
    GAME WINDOW — KC sprite beside the window
    ============================================= */
 
-/* Sits to the right of the window, aligned with the top of the body area.
+/* Sits to the right of the window, bottom-aligned with the window's bottom edge.
    Moves naturally when the window is dragged. */
 .game-sprite-peek {
     position: absolute;
-    top: 22px;                  /* sit just below the titlebar */
+    bottom: 0;                  /* align bottom of sprite with bottom of window */
     left: calc(100% + 12px);   /* 12px to the right of the window */
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
     pointer-events: none;
-    width: 160px;
+    width: 185px;
 }
 
-/* Sprite box — same proportions as About Me but slightly smaller */
+/* Larger sprite box */
 .game-peek-sprite-box {
-    width: 80px;
-    height: 110px;
+    width: 120px;
+    height: 165px;
     flex-shrink: 0;
 }
 
 /* Tall, static instruction bubble — no fixed height so it grows with content */
 .game-bubble {
-    width: 155px !important;
+    width: 180px !important;
     height: auto !important;
     min-height: 80px;
-    padding: 8px 10px !important;
-    font-size: 0.68rem !important;
+    padding: 10px 12px !important;
+    font-size: 0.82rem !important;
     line-height: 1.5;
     text-align: left !important;
     white-space: normal !important;

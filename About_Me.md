@@ -1,5 +1,3 @@
-# Hello! I'm Kiersten Cerisse Galapati.
-
 <!-- 
   EDITING GUIDE
   The intro paragraph above the folders comes from the text between here and the first ## heading.

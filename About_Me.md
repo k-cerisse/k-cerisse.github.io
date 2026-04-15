@@ -1,11 +1,12 @@
 <!-- 
   EDITING GUIDE
-  The intro paragraph above the folders comes from the text between here and the first ## heading.
-  Each ## heading feeds a folder panel on the site. Keep the headings exactly as written:
-    ## Education   → Education folder
-    ## Interests   → Interests folder
-    ## Spare Time  → Spare Time folder
-  You can freely edit the content under each heading — it will update on the site automatically.
+  The intro paragraph comes from the text between here and the first ## heading.
+  These headings feed directly into the site — keep them exactly as written:
+    ## Education   → Education folder (About Me window)
+    ## Interests   → Interests folder (About Me window)
+    ## Spare Time  → Spare Time folder (About Me window)
+    ## Projects    → Projects window text (photos and reel stay hardcoded)
+  Everything else (## Contact, etc.) can be renamed or deleted freely.
 -->
 
 # Hello! I'm Kiersten Cerisse Galapati.

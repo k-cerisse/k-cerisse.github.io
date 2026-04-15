@@ -584,10 +584,11 @@ async function runAnalysis() {
                 const el = document.getElementById(id);
                 if (el) el.innerHTML = html;
             };
-            set('about-intro',       extractIntro(md));
-            set('about-edu-content', extractSection(md, 'Education'));
-            set('about-int-content', extractSection(md, 'Interests'));
-            set('about-spare-content', extractSection(md, 'Spare Time'));
+            set('about-intro',        extractIntro(md));
+            set('about-edu-content',  extractSection(md, 'Education'));
+            set('about-int-content',  extractSection(md, 'Interests'));
+            set('about-spare-content',extractSection(md, 'Spare Time'));
+            set('projects-md-content',extractSection(md, 'Projects'));
         })
         .catch(() => {
             const el = document.getElementById('about-intro');

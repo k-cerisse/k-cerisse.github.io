@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Jacquard+12&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="stylesheet" href="styles.css?v=7">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -229,7 +229,14 @@
             </div>
 
             <!-- APP WINDOW: Maze Game -->
-            <div class="app-frame" id="app-game" style="display:none; top:4%; left:6%;">
+            <div class="app-frame" id="app-game" style="display:none; top:18%; left:6%;">
+                <!-- KC sprite peeking over the top of the window -->
+                <div class="game-sprite-peek" id="game-sprite-peek">
+                    <div class="speech-bubble game-bubble" id="game-speech-bubble">Click START to play!</div>
+                    <div class="kc-sprite-box game-peek-sprite-box">
+                        <img src="sprites/kc_stand.png" id="kc-game-sprite" class="kc-win-sprite" alt="KC">
+                    </div>
+                </div>
                 <div class="win95-titlebar app-titlebar">
                     <img src="https://win98icons.alexmeub.com/icons/png/game_mine_1-0.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="">
                     <span class="win95-titletext">Scratch_Maze_Game.exe</span>
@@ -412,6 +419,6 @@
         <p>Designed by KC • Contact: kc.galapati@gmail.com</p>
     </footer>
 
-<script src="script.js?v=6"></script>
+<script src="script.js?v=7"></script>
 </body>
 </html>

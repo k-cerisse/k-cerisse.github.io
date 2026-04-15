@@ -1520,6 +1520,42 @@ footer {
 }
 
 /* =============================================
+   GAME WINDOW — KC sprite peeking over the top
+   ============================================= */
+
+/* Sits just above the window's top edge, moves with the window when dragged */
+.game-sprite-peek {
+    position: absolute;
+    bottom: 100%;          /* bottom of this element = top of app-frame */
+    right: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    pointer-events: none;
+    z-index: 0;            /* titlebar (normal flow, later in DOM) renders on top */
+}
+
+/* Smaller sprite box for the peek — fits snugly above the titlebar */
+.game-peek-sprite-box {
+    width: 75px;
+    height: 100px;
+    flex-shrink: 0;
+}
+
+/* Wider bubble to fit longer instruction text */
+.game-bubble {
+    width: 155px !important;
+    height: 56px !important;
+    font-size: 0.68rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: normal !important;
+}
+
+/* =============================================
    MUSIC PLAYER WINDOW
    ============================================= */
 

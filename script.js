@@ -620,24 +620,53 @@ window.addEventListener('keydown', (e) => {
 
 /* =============================================
    6. SPRITE ANIMATION (kc_stand ↔ kc_happy)
+      Drives both the About Me window sprite and
+      the Maze Game peeking sprite.
    ============================================= */
 
 (function initSpriteAnimation() {
     const sprites = ['sprites/kc_stand.png', 'sprites/kc_happy.png'];
-    const messages = ['Nice to meet you!', 'Welcome to my portfolio!', "I'm KC!", 'Check out my work!'];
-    let spriteIdx = 0;
-    let msgIdx = 0;
+
+    // About Me window bubble messages
+    const aboutMessages = [
+        'Nice to meet you!',
+        'Welcome to my portfolio!',
+        "I'm KC!",
+        'Check out my work!'
+    ];
+
+    // Maze Game instruction messages — cycles as player reads through them
+    const gameMessages = [
+        'Click START to play!',
+        'Move with arrow keys!',
+        'Find the exit to win!',
+        'Watch out for walls!'
+    ];
+
+    let spriteIdx   = 0;
+    let aboutMsgIdx = 0;
+    let gameMsgIdx  = 0;
 
     setInterval(() => {
         spriteIdx = (spriteIdx + 1) % sprites.length;
-        const img = document.getElementById('kc-win-sprite');
-        if (img) img.src = sprites[spriteIdx];
 
-        // Rotate speech bubble text every other swap
+        // Swap About Me sprite
+        const aboutImg = document.getElementById('kc-win-sprite');
+        if (aboutImg) aboutImg.src = sprites[spriteIdx];
+
+        // Swap Game peek sprite
+        const gameImg = document.getElementById('kc-game-sprite');
+        if (gameImg) gameImg.src = sprites[spriteIdx];
+
+        // Rotate bubble text every other swap (when sprite returns to standing pose)
         if (spriteIdx === 0) {
-            msgIdx = (msgIdx + 1) % messages.length;
-            const bubble = document.getElementById('kc-speech-bubble');
-            if (bubble) bubble.textContent = messages[msgIdx];
+            aboutMsgIdx = (aboutMsgIdx + 1) % aboutMessages.length;
+            const aboutBubble = document.getElementById('kc-speech-bubble');
+            if (aboutBubble) aboutBubble.textContent = aboutMessages[aboutMsgIdx];
+
+            gameMsgIdx = (gameMsgIdx + 1) % gameMessages.length;
+            const gameBubble = document.getElementById('game-speech-bubble');
+            if (gameBubble) gameBubble.textContent = gameMessages[gameMsgIdx];
         }
     }, 2500);
 })();

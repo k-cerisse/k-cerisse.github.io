@@ -1,17 +1,6 @@
-<!-- 
-  EDITING GUIDE
-  The intro paragraph comes from the text between here and the first ## heading.
-  These headings feed directly into the site — keep them exactly as written:
-    ## Education   → Education folder (About Me window)
-    ## Interests   → Interests folder (About Me window)
-    ## Spare Time  → Spare Time folder (About Me window)
-    ## Projects    → Projects window text (photos and reel stay hardcoded)
-  Everything else (## Contact, etc.) can be renamed or deleted freely.
--->
-
 # Hello! I'm Kiersten Cerisse Galapati.
 
-My nickname is KC short for my first 2 names. I'm in my 4th year of university and very excited to graduate. This class has taught me so much and I was excited for every class. All the components we went over this semester has really affirmed my interest and love for computers! This portfolio is my way of showing all the skills KNES 381 has taught me. I used GIMP to create PNG files for assets like the retro computer you saw as the background earlier, as well as for some desktop icons.
+My nickname is KC short for my first 2 names. I'm in my 4th year of university and very excited to graduate. This class has taught me so much and I was excited for every class. All the components we went over this semester has really affirmed my interest and love for computers! This portfolio is my way of showing all the skills KNES 381 has taught me. I used GIMP to create PNG files for assets like the retro computer you saw as the background earlier, the sprite images, as well as for some of the clickable icons.
 
 ---
 
@@ -42,19 +31,13 @@ The other photos are from that summer (2025) where I had the opportunity to atte
 
 ## Interests
 
-Music, videography, Japanese cars, data analysis, crocheting, computer coding, arts and crafts.
+I've come to love videography and I like to make silly edits when I'm on my side quests. The youth had a volleyball fellowship in the summer and I took many videos for them to remember. One of the attached videos here is an analasys of one of their rallys. I had to screen record the Dartfish program because I couldn't get the video to load as a compatible MP4 file.
 
----
+My other growing passion are japanese cars. This passion started in highschool which made me want to take mechanics as an elective in grade 10. Ever since then, I would always be on the look out for exotic and japanese domestic cars to take photos and videos of, and edit them. My dream car is a Subaru Impreza WRX type R STi version (leanghty name for a cute car). I want to take on the challenge of maintaining cars on my own.
 
-## Spare Time
+Another very large part of my life is music. I love spending hours singing and practicing guitar, or even just jamming out with friends. If I'm not singing, I'm playing competative video games (Overwatch as of recent).
 
-Outside of school I enjoy:
-
-- Singing and playing instruments
-- Crocheting and knitting small gifts
-- Volunteering for a Catholic youth group
-- Filming and editing Japanese cars
-- Playing competitive and single-player video games
+If you're wondering about what the wallpaper is, it's the Sacred Heart of Jesus. This vision was revealed to St. Margaret Mary Alacoque, a 17th-century nun.
 
 ---
 

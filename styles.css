@@ -1520,39 +1520,41 @@ footer {
 }
 
 /* =============================================
-   GAME WINDOW — KC sprite peeking over the top
+   GAME WINDOW — KC sprite beside the window
    ============================================= */
 
-/* Sits just above the window's top edge, moves with the window when dragged */
+/* Sits to the right of the window, aligned with the top of the body area.
+   Moves naturally when the window is dragged. */
 .game-sprite-peek {
     position: absolute;
-    bottom: 100%;          /* bottom of this element = top of app-frame */
-    right: 40px;
+    top: 22px;                  /* sit just below the titlebar */
+    left: calc(100% + 12px);   /* 12px to the right of the window */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    gap: 6px;
     pointer-events: none;
-    z-index: 0;            /* titlebar (normal flow, later in DOM) renders on top */
+    width: 160px;
 }
 
-/* Smaller sprite box for the peek — fits snugly above the titlebar */
+/* Sprite box — same proportions as About Me but slightly smaller */
 .game-peek-sprite-box {
-    width: 75px;
-    height: 100px;
+    width: 80px;
+    height: 110px;
     flex-shrink: 0;
 }
 
-/* Wider bubble to fit longer instruction text */
+/* Tall, static instruction bubble — no fixed height so it grows with content */
 .game-bubble {
     width: 155px !important;
-    height: 56px !important;
+    height: auto !important;
+    min-height: 80px;
+    padding: 8px 10px !important;
     font-size: 0.68rem !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    line-height: 1.5;
+    text-align: left !important;
     white-space: normal !important;
+    display: block !important;
 }
 
 /* =============================================

@@ -635,17 +635,8 @@ window.addEventListener('keydown', (e) => {
         'Check out my work!'
     ];
 
-    // Maze Game instruction messages — cycles as player reads through them
-    const gameMessages = [
-        'Click START to play!',
-        'Move with arrow keys!',
-        'Find the exit to win!',
-        'Watch out for walls!'
-    ];
-
     let spriteIdx   = 0;
     let aboutMsgIdx = 0;
-    let gameMsgIdx  = 0;
 
     setInterval(() => {
         spriteIdx = (spriteIdx + 1) % sprites.length;
@@ -654,19 +645,15 @@ window.addEventListener('keydown', (e) => {
         const aboutImg = document.getElementById('kc-win-sprite');
         if (aboutImg) aboutImg.src = sprites[spriteIdx];
 
-        // Swap Game peek sprite
+        // Swap Game sprite (bubble text is static HTML — no cycling needed)
         const gameImg = document.getElementById('kc-game-sprite');
         if (gameImg) gameImg.src = sprites[spriteIdx];
 
-        // Rotate bubble text every other swap (when sprite returns to standing pose)
+        // Rotate About Me bubble text every other swap
         if (spriteIdx === 0) {
             aboutMsgIdx = (aboutMsgIdx + 1) % aboutMessages.length;
             const aboutBubble = document.getElementById('kc-speech-bubble');
             if (aboutBubble) aboutBubble.textContent = aboutMessages[aboutMsgIdx];
-
-            gameMsgIdx = (gameMsgIdx + 1) % gameMessages.length;
-            const gameBubble = document.getElementById('game-speech-bubble');
-            if (gameBubble) gameBubble.textContent = gameMessages[gameMsgIdx];
         }
     }, 2500);
 })();

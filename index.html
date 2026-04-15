@@ -75,10 +75,6 @@
                         <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" class="pixelated-img" alt="">
                         <span>About Me</span>
                     </div>
-                    <div class="win95-desktop-icon" ondblclick="openWindow('app-music')">
-                        <img src="https://win98icons.alexmeub.com/icons/png/media_player-2.png" class="pixelated-img" alt="" onerror="this.src='https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-4.png'">
-                        <span>Song Player</span>
-                    </div>
                     <div class="win95-desktop-icon" ondblclick="openWindow('app-projects')">
                         <img src="https://win98icons.alexmeub.com/icons/png/briefcase-2.png" class="pixelated-img" alt="">
                         <span>My Projects</span>
@@ -139,10 +135,6 @@
                             <img src="https://win98icons.alexmeub.com/icons/png/joy-0.png" class="win-icon pixelated-img" alt="Interests" onerror="this.src='https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png'">
                             <span class="icon-label">Interests</span>
                         </div>
-                        <div class="interactive-item" onclick="toggleReveal('reveal-spare')">
-                            <img src="https://win98icons.alexmeub.com/icons/png/briefcase-2.png" class="win-icon pixelated-img" alt="Briefcase">
-                            <span class="icon-label">Spare Time</span>
-                        </div>
                     </div>
 
                     <!-- Reveal panels — content injected from About_Me.md -->
@@ -163,12 +155,6 @@
                                     Your browser does not support the video tag.
                                 </video>
                             </fieldset>
-                        </fieldset>
-                    </div>
-                    <div id="reveal-spare" class="reveal-content hidden">
-                        <fieldset class="win-fieldset">
-                            <legend>Spare_Time.exe</legend>
-                            <div id="about-spare-content"><p style="color:var(--win-shadow);">Loading...</p></div>
                         </fieldset>
                     </div>
                 </div>
@@ -269,75 +255,6 @@
                 </div>
             </div>
 
-            <!-- APP WINDOW: Song Player -->
-            <div class="app-frame" id="app-music" style="display:none; top:7%; left:52%; width:300px;">
-                <div class="win95-titlebar app-titlebar">
-                    <img src="https://win98icons.alexmeub.com/icons/png/media_player-2.png" style="width:14px;height:14px;margin-right:4px;" class="pixelated-img" alt="" onerror="this.src='https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-4.png'">
-                    <span class="win95-titletext">Song</span>
-                    <div class="win95-controls">
-                        <button class="win95-btn" onclick="minimizeWindow('app-music')">_</button>
-                        <button class="win95-btn" onclick="maximizeWindow('app-music')">□</button>
-                        <button class="win95-btn" onclick="closeWindow('app-music')">X</button>
-                    </div>
-                </div>
-                <div class="win95-body app-body music-player-body">
-                    <audio id="music-audio" preload="none"></audio>
-
-                    <!-- Album art + right controls -->
-                    <div class="music-top">
-                        <img class="music-album-art" id="music-album-art" src="" alt="Album Art">
-                        <div class="music-right-panel">
-                            <div class="music-cd-vol">
-                                <img src="https://win98icons.alexmeub.com/icons/png/media_player-2.png" class="music-cd pixelated-img" alt="CD" onerror="this.src='https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-4.png'">
-                                <div class="music-vol">
-                                    <button class="music-vol-btn" onclick="musicVolUp()">+</button>
-                                    <div class="music-vol-track"><div class="music-vol-fill" id="music-vol-fill"></div></div>
-                                    <button class="music-vol-btn" onclick="musicVolDown()">-</button>
-                                </div>
-                            </div>
-                            <!-- Row 1: play/pause, shuffle, repeat -->
-                            <div class="music-btn-row">
-                                <button class="music-ctrl-btn" id="music-play-btn" onclick="musicTogglePlay()">&#9654;</button>
-                                <button class="music-ctrl-btn" id="music-shuffle-btn" onclick="this.classList.toggle('active')" title="Shuffle">&#8652;</button>
-                                <button class="music-ctrl-btn" id="music-repeat-btn" onclick="this.classList.toggle('active')" title="Repeat">&#8635;</button>
-                            </div>
-                            <!-- Row 2: prev, rewind, ffwd, next, heart -->
-                            <div class="music-btn-row">
-                                <button class="music-ctrl-btn" onclick="musicSeek(-30)" title="Prev">|&#9664;</button>
-                                <button class="music-ctrl-btn" onclick="musicSeek(-5)" title="Rewind">&#9664;&#9664;</button>
-                                <button class="music-ctrl-btn" onclick="musicSeek(5)" title="Fast fwd">&#9654;&#9654;</button>
-                                <button class="music-ctrl-btn" onclick="musicSeek(30)" title="Next">&#9654;|</button>
-                                <button class="music-ctrl-btn" id="music-heart-btn" onclick="this.classList.toggle('active')" title="Favourite">&#9829;</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Artist / Title -->
-                    <div class="music-info-row">
-                        <span class="music-label">Artist:</span>
-                        <div class="music-field">
-                            <span id="music-artist">—</span>
-                            <span class="music-dropdown">&#9660;</span>
-                        </div>
-                    </div>
-                    <div class="music-info-row">
-                        <span class="music-label">Title:</span>
-                        <div class="music-field">
-                            <span id="music-title">—</span>
-                            <span class="music-dropdown">&#9660;</span>
-                        </div>
-                    </div>
-
-                    <!-- Progress bar -->
-                    <div class="music-progress-row">
-                        <span class="music-time" id="music-current-time">0:00</span>
-                        <div class="music-progress-bar" id="music-progress-bar" onclick="musicSeekClick(event)">
-                            <div class="music-progress-thumb" id="music-progress-thumb"></div>
-                        </div>
-                        <span class="music-time" id="music-total-time">0:00</span>
-                    </div>
-                </div>
-            </div>
 
             <!-- APP WINDOW: My Projects -->
             <div class="app-frame" id="app-projects" style="display:none; top:8%; left:12%;">

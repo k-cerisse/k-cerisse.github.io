@@ -232,18 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Auto-open About Me and Song Player after wallpaper fades in
             setTimeout(() => {
                 openWindow('app-about');
-                openWindow('app-music');
-                // Snap music window to bottom-right above taskbar
-                requestAnimationFrame(() => {
-                    const musicWin = document.getElementById('app-music');
-                    const clip     = document.getElementById('screen-clip');
-                    if (musicWin && clip) {
-                        const margin   = 16;
-                        const taskbarH = 36;
-                        musicWin.style.left = (clip.offsetWidth  - musicWin.offsetWidth  - margin) + 'px';
-                        musicWin.style.top  = (clip.offsetHeight - musicWin.offsetHeight - taskbarH - margin) + 'px';
-                    }
-                });
             }, 500);
         }, 3400);
     }
@@ -587,7 +575,6 @@ async function runAnalysis() {
             set('about-intro',        extractIntro(md));
             set('about-edu-content',  extractSection(md, 'Education'));
             set('about-int-content',  extractSection(md, 'Interests'));
-            set('about-spare-content',extractSection(md, 'Spare Time'));
             set('projects-md-content',extractSection(md, 'Projects'));
         })
         .catch(() => {
@@ -658,117 +645,4 @@ window.addEventListener('keydown', (e) => {
     }, 2500);
 })();
 
-/* =============================================
-   5. MUSIC PLAYER
-   ============================================= */
 
-(function initMusicPlayer() {
-    // ── Song config — fill these in when you have the file ──
-    // To use a local file: set audioSrc to the filename, e.g. 'my_song.mp3'
-    // To use a URL: paste the direct link
-    const SONG = {
-        src:    '',           // audio source — leave blank until ready
-        artist: '—',
-        title:  '—',
-        art:    ''            // album art image path or URL
-    };
-
-    const audio    = document.getElementById('music-audio');
-    const playBtn  = document.getElementById('music-play-btn');
-    const volFill  = document.getElementById('music-vol-fill');
-    const progress = document.getElementById('music-progress-thumb');
-    const bar      = document.getElementById('music-progress-bar');
-    const curTime  = document.getElementById('music-current-time');
-    const totTime  = document.getElementById('music-total-time');
-    const artistEl = document.getElementById('music-artist');
-    const titleEl  = document.getElementById('music-title');
-    const artImg   = document.getElementById('music-album-art');
-
-    if (!audio) return;
-
-    // Apply song config
-    if (SONG.src)    audio.src = SONG.src;
-    if (SONG.artist) artistEl.textContent = SONG.artist;
-    if (SONG.title)  titleEl.textContent  = SONG.title;
-    if (SONG.art && artImg) artImg.src = SONG.art;
-
-    let volume = 0.7;
-    audio.volume = volume;
-    updateVolBar();
-
-    function updateVolBar() {
-        if (volFill) volFill.style.width = (volume * 100) + '%';
-    }
-
-    function formatTime(s) {
-        if (!isFinite(s)) return '0:00';
-        const m = Math.floor(s / 60);
-        const sec = Math.floor(s % 60).toString().padStart(2, '0');
-        return `${m}:${sec}`;
-    }
-
-    // Playback toggle
-    window.musicTogglePlay = function() {
-        if (!audio.src || audio.src === window.location.href) {
-            // No song loaded yet — flash the title text
-            if (titleEl) { titleEl.textContent = 'No file loaded'; setTimeout(() => { titleEl.textContent = SONG.title || '—'; }, 1500); }
-            return;
-        }
-        if (audio.paused) {
-            audio.play();
-            if (playBtn) playBtn.innerHTML = '&#9646;&#9646;'; // pause icon
-        } else {
-            audio.pause();
-            if (playBtn) playBtn.innerHTML = '&#9654;'; // play icon
-        }
-    };
-
-    // Seek relative (seconds)
-    window.musicSeek = function(sec) {
-        audio.currentTime = Math.max(0, Math.min(audio.duration || 0, audio.currentTime + sec));
-    };
-
-    // Seek by clicking the progress bar
-    window.musicSeekClick = function(e) {
-        if (!bar || !audio.duration) return;
-        const rect = bar.getBoundingClientRect();
-        const frac = (e.clientX - rect.left) / rect.width;
-        audio.currentTime = frac * audio.duration;
-    };
-
-    // Volume
-    window.musicVolUp = function() {
-        volume = Math.min(1, volume + 0.1);
-        audio.volume = volume;
-        updateVolBar();
-    };
-    window.musicVolDown = function() {
-        volume = Math.max(0, volume - 0.1);
-        audio.volume = volume;
-        updateVolBar();
-    };
-
-    // Update progress bar and timestamps as song plays
-    audio.addEventListener('timeupdate', () => {
-        if (!audio.duration) return;
-        const pct = (audio.currentTime / audio.duration) * 100;
-        if (progress) progress.style.left = pct + '%';
-        if (curTime)  curTime.textContent  = formatTime(audio.currentTime);
-    });
-
-    audio.addEventListener('loadedmetadata', () => {
-        if (totTime) totTime.textContent = formatTime(audio.duration);
-    });
-
-    audio.addEventListener('ended', () => {
-        if (playBtn) playBtn.innerHTML = '&#9654;';
-        if (progress) progress.style.left = '0%';
-        if (curTime)  curTime.textContent  = '0:00';
-        // Auto-repeat if repeat is active
-        const repeatBtn = document.getElementById('music-repeat-btn');
-        if (repeatBtn && repeatBtn.classList.contains('active')) {
-            audio.currentTime = 0;
-            audio.play();
-        }
-    });
-})();

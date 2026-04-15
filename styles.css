@@ -1544,6 +1544,11 @@ footer {
     flex-shrink: 0;
 }
 
+/* Hide sprite + bubble when the game window is minimized */
+#app-game.minimized .game-sprite-peek {
+    display: none;
+}
+
 /* Tall, static instruction bubble — no fixed height so it grows with content */
 .game-bubble {
     width: 180px !important;
